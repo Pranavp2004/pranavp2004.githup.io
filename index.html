@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Magical Birthday Celebration!</title>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Birthstone+Bounce&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
         :root {
             --primary-color: #6C5B7B;
@@ -23,14 +24,6 @@
             font-family: 'Quicksand', sans-serif;
             background: linear-gradient(45deg, #F8BBD0, #81D4FA);
             overflow-x: hidden;
-        }
-
-        .magical-bg {
-            position: fixed;
-            width: 100vw;
-            height: 100vh;
-            pointer-events: none;
-            z-index: -1;
         }
 
         .hero {
@@ -62,6 +55,10 @@
             padding: 0 2rem;
             width: max-content;
             animation: scrollGallery 30s linear infinite;
+        }
+
+        .scroll-gallery:hover {
+            animation-play-state: paused;
         }
 
         .photo-card {
@@ -120,6 +117,68 @@
             padding: 1.5rem;
             border-radius: 10px;
             min-width: 120px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .timer-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .timer-item span {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--dark-color);
+            text-shadow: 0 0 10px rgba(255,255,255,0.8);
+        }
+
+        .timer-item p {
+            margin-top: 0.5rem;
+            font-size: 1rem;
+            color: var(--dark-color);
+        }
+
+        /* Birthday Messages Section */
+        .birthday-messages {
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            margin: 2rem;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        textarea {
+            width: 80%;
+            height: 100px;
+            padding: 1rem;
+            border-radius: 10px;
+            border: none;
+            margin: 1rem 0;
+            resize: none;
+        }
+
+        button {
+            padding: 0.5rem 2rem;
+            border: none;
+            border-radius: 10px;
+            background: var(--primary-color);
+            color: white;
+            cursor: pointer;
+        }
+
+        #messagesContainer {
+            margin-top: 2rem;
+            text-align: left;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            margin-top: 2rem;
         }
 
         /* Animations */
@@ -128,16 +187,23 @@
             50% { transform: translateY(-20px); }
         }
 
-        @keyframes rise {
-            from { transform: translateY(100vh); opacity: 1; }
-            to { transform: translateY(-100vh); opacity: 0; }
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 10px rgba(255,255,255,0.8); }
+            50% { text-shadow: 0 0 20px rgba(255,255,255,1); }
         }
 
-        .bubble {
+        @keyframes fireworks {
+            0% { transform: scale(0); opacity: 1; }
+            100% { transform: scale(1); opacity: 0; }
+        }
+
+        .firework {
             position: absolute;
-            background: rgba(255,255,255,0.2);
+            width: 10px;
+            height: 10px;
+            background: white;
             border-radius: 50%;
-            animation: rise 15s infinite linear;
+            animation: fireworks 1s ease-out;
         }
 
         @media (max-width: 768px) {
@@ -149,12 +215,20 @@
                 width: 250px;
                 height: 350px;
             }
+
+            .timer {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .timer-item {
+                min-width: 100px;
+                padding: 1rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="magical-bg" id="magicBg"></div>
-
     <!-- Hero Section -->
     <section class="hero">
         <h1>Happy Birthday, Keedu! ✨</h1>
@@ -164,59 +238,59 @@
     <section class="photo-wall">
         <div class="scroll-gallery">
             <div class="photo-card">
-                <img src="image1.jpg" alt="Magical Memory">
+                <img src="image1.jpg" alt="Magical Memory" loading="lazy">
             </div>
             <div class="photo-card">
-                <img src="image2.jpg" alt="Memory 2">
+                <img src="image2.jpg" alt="Memory 2" loading="lazy">
             </div>
             <div class="photo-card">
-                <img src="image3.jpg" alt="Memory 3">
+                <img src="image3.jpg" alt="Memory 3" loading="lazy">
             </div>
             <div class="photo-card">
-                <img src="image4.jpg" alt="Magical Memory">
+                <img src="image4.jpg" alt="Magical Memory" loading="lazy">
             </div>
             <div class="photo-card">
-                <img src="image9.jpg" alt="Memory 2">
+                <img src="image9.jpg" alt="Memory 2" loading="lazy">
             </div>
             <div class="photo-card">
-                <img src="image8.jpg" alt="Memory 2">
+                <img src="image8.jpg" alt="Memory 2" loading="lazy">
             </div>
             <div class="photo-card">
-                <img src="image6.jpg" alt="Memory 2">
+                <img src="image6.jpg" alt="Memory 2" loading="lazy">
             </div>
             <div class="photo-card">
-                <img src="image5.jpg" alt="Memory 2">
+                <img src="image5.jpg" alt="Memory 2" loading="lazy">
             </div>
             <div class="photo-card">
-                <img src="image7.jpg" alt="Memory 2">
+                <img src="image7.jpg" alt="Memory 2" loading="lazy">
             </div>
             <!-- Duplicate photos for infinite scroll -->
             <div class="photo-card">
-                <img src="image1.jpg" alt="Magical Memory">
+                <img src="image1.jpg" alt="Magical Memory" loading="lazy">
             </div>
             <div class="photo-card">
-                <img src="image2.jpg" alt="Memory 2">
+                <img src="image2.jpg" alt="Memory 2" loading="lazy">
             </div>
             <div class="photo-card">
-                <img src="image3.jpg" alt="Memory 3">
+                <img src="image3.jpg" alt="Memory 3" loading="lazy">
             </div>
             <div class="photo-card">
-                <img src="image4.jpg" alt="Magical Memory">
+                <img src="image4.jpg" alt="Magical Memory" loading="lazy">
             </div>
             <div class="photo-card">
-                <img src="image9.jpg" alt="Memory 2">
+                <img src="image9.jpg" alt="Memory 2" loading="lazy">
             </div>
             <div class="photo-card">
-                <img src="image8.jpg" alt="Memory 2">
+                <img src="image8.jpg" alt="Memory 2" loading="lazy">
             </div>
             <div class="photo-card">
-                <img src="image6.jpg" alt="Memory 2">
+                <img src="image6.jpg" alt="Memory 2" loading="lazy">
             </div>
             <div class="photo-card">
-                <img src="image5.jpg" alt="Memory 2">
+                <img src="image5.jpg" alt="Memory 2" loading="lazy">
             </div>
             <div class="photo-card">
-                <img src="image7.jpg" alt="Memory 2">
+                <img src="image7.jpg" alt="Memory 2" loading="lazy">
             </div>
         </div>
     </section>
@@ -237,27 +311,39 @@
                 <span id="minutes">00</span>
                 <p>Minutes</p>
             </div>
+            <div class="timer-item">
+                <span id="seconds">00</span>
+                <p>Seconds</p>
+            </div>
         </div>
     </section>
 
-    <script>
-        // Create animated background
-        function createBubbles() {
-            const bg = document.getElementById('magicBg');
-            for(let i = 0; i < 50; i++) {
-                const bubble = document.createElement('div');
-                bubble.className = 'bubble';
-                bubble.style.left = Math.random() * 100 + '%';
-                bubble.style.width = bubble.style.height = 
-                    Math.random() * 20 + 10 + 'px';
-                bubble.style.animationDelay = Math.random() * 15 + 's';
-                bg.appendChild(bubble);
-            }
-        }
+    <!-- Birthday Messages Section -->
+    <section class="birthday-messages">
+        <h2>Leave a Birthday Wish for Keedu!</h2>
+        <form id="messageForm">
+            <textarea placeholder="Write your message here..." required></textarea>
+            <button type="submit">Send</button>
+        </form>
+        <div id="messagesContainer"></div>
+    </section>
 
-        // Countdown Timer
-        const birthday = new Date('2025-03-16').getTime(); // Set your date here
-        
+    <!-- Footer -->
+    <footer>
+        <p>Made with ❤️ by [Your Name]</p>
+    </footer>
+
+    <!-- Music Player -->
+    <audio id="birthdayMusic" loop>
+        <source src="birthday-song.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <button id="musicToggle">Play Music</button>
+
+    <script>
+        // Countdown Timer with Indian Standard Time (IST)
+        const birthday = new Date('2025-03-16T00:00:00+05:30').getTime(); // Set your date in IST
+
         function updateTimer() {
             const now = new Date().getTime();
             const diff = birthday - now;
@@ -265,17 +351,59 @@
             const days = Math.floor(diff / (1000 * 60 * 60 * 24));
             const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-            document.getElementById('days').textContent = days;
-            document.getElementById('hours').textContent = hours;
-            document.getElementById('minutes').textContent = minutes;
+            document.getElementById('days').textContent = String(days).padStart(2, '0');
+            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+
+            if (diff <= 0) {
+                clearInterval(timerInterval);
+                document.getElementById('timer').innerHTML = "<h2>🎉 The Celebration Has Begun! 🎉</h2>";
+                triggerFireworks();
+            }
         }
 
-        setInterval(updateTimer, 1000);
+        const timerInterval = setInterval(updateTimer, 1000);
         updateTimer();
 
-        // Initialize
-        createBubbles();
+        // Fireworks Effect
+        function triggerFireworks() {
+            const fireworksInterval = setInterval(() => {
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            }, 500);
+
+            setTimeout(() => clearInterval(fireworksInterval), 5000); // Stop after 5 seconds
+        }
+
+        // Birthday Messages
+        document.getElementById('messageForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const message = e.target.querySelector('textarea').value;
+            const messageElement = document.createElement('p');
+            messageElement.textContent = message;
+            document.getElementById('messagesContainer').appendChild(messageElement);
+            e.target.reset();
+        });
+
+        // Music Player
+        const music = document.getElementById('birthdayMusic');
+        const toggleButton = document.getElementById('musicToggle');
+
+        toggleButton.addEventListener('click', () => {
+            if (music.paused) {
+                music.play();
+                toggleButton.textContent = 'Pause Music';
+            } else {
+                music.pause();
+                toggleButton.textContent = 'Play Music';
+            }
+        });
     </script>
 </body>
 </html>
