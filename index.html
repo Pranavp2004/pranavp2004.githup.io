@@ -26,6 +26,26 @@
             overflow-x: hidden;
         }
 
+        .magical-bg {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .bubble {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: rise 10s infinite linear;
+        }
+
+        @keyframes rise {
+            0% { transform: translateY(100vh); opacity: 1; }
+            100% { transform: translateY(-100vh); opacity: 0; }
+        }
+
         .hero {
             height: 100vh;
             display: flex;
@@ -206,6 +226,57 @@
             animation: fireworks 1s ease-out;
         }
 
+        /* Balloons */
+        .balloon {
+            position: absolute;
+            width: 100px;
+            height: 120px;
+            background: #ff6f61;
+            border-radius: 50%;
+            clip-path: ellipse(25% 40% at 50% 50%);
+            animation: floatBalloon 8s infinite ease-in-out;
+            cursor: pointer;
+        }
+
+        .balloon::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            width: 2px;
+            height: 50px;
+            background: #000;
+        }
+
+        @keyframes floatBalloon {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Surprise Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            z-index: 1000;
+            text-align: center;
+        }
+
+        .modal h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .modal button {
+            margin-top: 1rem;
+        }
+
         @media (max-width: 768px) {
             .hero h1 {
                 font-size: 3rem;
@@ -229,6 +300,8 @@
     </style>
 </head>
 <body>
+    <div class="magical-bg" id="magicBg"></div>
+
     <!-- Hero Section -->
     <section class="hero">
         <h1>Happy Birthday, Keedu! ✨</h1>
@@ -330,7 +403,7 @@
 
     <!-- Footer -->
     <footer>
-        <p>MADE FOR FUN BY PRANAV</p>
+        <p>Made with ❤️ by Pranav</p>
     </footer>
 
     <!-- Music Player -->
@@ -340,7 +413,28 @@
     </audio>
     <button id="musicToggle">Play Music</button>
 
+    <!-- Surprise Modal -->
+    <div class="modal" id="surpriseModal">
+        <h2>🎉 Surprise! 🎉</h2>
+        <p>Wishing you a magical birthday filled with joy and laughter!</p>
+        <button onclick="closeModal()">Close</button>
+    </div>
+
     <script>
+        // Create animated background
+        function createBubbles() {
+            const bg = document.getElementById('magicBg');
+            for(let i = 0; i < 50; i++) {
+                const bubble = document.createElement('div');
+                bubble.className = 'bubble';
+                bubble.style.left = Math.random() * 100 + '%';
+                bubble.style.width = bubble.style.height = 
+                    Math.random() * 20 + 10 + 'px';
+                bubble.style.animationDelay = Math.random() * 15 + 's';
+                bg.appendChild(bubble);
+            }
+        }
+
         // Countdown Timer with Indian Standard Time (IST)
         const birthday = new Date('2025-03-16T00:00:00+05:30').getTime(); // Set your date in IST
 
@@ -404,6 +498,40 @@
                 toggleButton.textContent = 'Play Music';
             }
         });
+
+        // Surprise Modal
+        setTimeout(() => {
+            document.getElementById('surpriseModal').style.display = 'block';
+        }, 10000); // Show modal after 10 seconds
+
+        function closeModal() {
+            document.getElementById('surpriseModal').style.display = 'none';
+        }
+
+        // Balloons
+        function createBalloons() {
+            const colors = ['#ff6f61', '#6b5b95', '#88b04b', '#f7cac9', '#92a8d1'];
+            for (let i = 0; i < 10; i++) {
+                const balloon = document.createElement('div');
+                balloon.className = 'balloon';
+                balloon.style.left = Math.random() * 100 + '%';
+                balloon.style.animationDuration = Math.random() * 6 + 4 + 's';
+                balloon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                balloon.addEventListener('click', () => {
+                    balloon.remove();
+                    confetti({
+                        particleCount: 50,
+                        spread: 70,
+                        origin: { y: 0.6 }
+                    });
+                });
+                document.body.appendChild(balloon);
+            }
+        }
+
+        // Initialize
+        createBubbles();
+        createBalloons();
     </script>
 </body>
 </html>
