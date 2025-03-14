@@ -38,12 +38,12 @@
             position: absolute;
             background: rgba(255, 255, 255, 0.3);
             border-radius: 50%;
-            animation: rise 10s infinite linear;
+            animation: rise 10s infinite ease-in;
         }
 
         @keyframes rise {
-            0% { transform: translateY(100vh); opacity: 1; }
-            100% { transform: translateY(-100vh); opacity: 0; }
+            0% { transform: translateY(100vh) scale(0.5); opacity: 1; }
+            100% { transform: translateY(-100vh) scale(1.5); opacity: 0; }
         }
 
         .hero {
@@ -393,20 +393,24 @@
 
     <!-- Birthday Messages Section -->
     <section class="birthday-messages">
-        <p>
         <h2>Dear Gowri,</h2>
-            
-<h3><br>🎉 Happy Birthday! 🎉</br></h3>
-            
-        On this special day, I want to take a moment to celebrate the amazing person you are! Your kindness, warmth, and positivity light up every room you walk into, and your laughter is truly contagious. You have a way of making everyone around you feel loved and appreciated, and that’s a gift not everyone has.
-    
-May this year bring you endless joy, success in all your endeavors, and moments that make your heart smile. You deserve all the happiness in the world and so much more! Here’s to another year of incredible memories, growth, and adventures.
-    
-Thank you for being such a wonderful friend and for bringing so much light into my life. I’m so grateful to know you and can’t wait to see all the amazing things you’ll accomplish this year!
-        
-Wishing you a day filled with love, laughter, and all your favorite things. Have the happiest birthday ever, Gowri! 🎂🎁✨
-        
+        <h3>🎉 Happy Birthday! 🎉</h3>
+        <p>
+            On this special day, I want to take a moment to celebrate the amazing person you are! Your kindness, warmth, and positivity light up every room you walk into, and your laughter is truly contagious. You have a way of making everyone around you feel loved and appreciated, and that’s a gift not everyone has.
         </p>
+        <p>
+            May this year bring you endless joy, success in all your endeavors, and moments that make your heart smile. You deserve all the happiness in the world and so much more! Here’s to another year of incredible memories, growth, and adventures.
+        </p>
+        <p>
+            Thank you for being such a wonderful friend and for bringing so much light into my life. I’m so grateful to know you and can’t wait to see all the amazing things you’ll accomplish this year!
+        </p>
+        <p>
+            Wishing you a day filled with love, laughter, and all your favorite things. Have the happiest birthday ever, Gowri! 🎂🎁✨
+        </p>
+        <form id="messageForm">
+            <textarea placeholder="Write your message here..." required></textarea>
+            <button type="submit">Send</button>
+        </form>
         <div id="messagesContainer"></div>
     </section>
 
@@ -465,6 +469,7 @@ Wishing you a day filled with love, laughter, and all your favorite things. Have
                 clearInterval(timerInterval);
                 document.getElementById('timer').innerHTML = "<h2>🎉 The Celebration Has Begun! 🎉</h2>";
                 triggerFireworks();
+                showSurprise();
             }
         }
 
@@ -481,7 +486,30 @@ Wishing you a day filled with love, laughter, and all your favorite things. Have
                 });
             }, 500);
 
-            setTimeout(() => clearInterval(fireworksInterval), 10000); // Stop after 5 seconds
+            setTimeout(() => clearInterval(fireworksInterval), 10000); // Stop after 10 seconds
+        }
+
+        // Surprise Effect
+        function showSurprise() {
+            const surprise = document.createElement('div');
+            surprise.innerHTML = `
+                <h2 style="text-align: center; color: var(--dark-color);">🎉 Surprise! 🎉</h2>
+                <p style="text-align: center;">It's time to celebrate! 🎂✨</p>
+            `;
+            surprise.style.position = 'fixed';
+            surprise.style.top = '50%';
+            surprise.style.left = '50%';
+            surprise.style.transform = 'translate(-50%, -50%)';
+            surprise.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
+            surprise.style.padding = '2rem';
+            surprise.style.borderRadius = '20px';
+            surprise.style.boxShadow = '0 10px 30px rgba(0,0,0,0.2)';
+            surprise.style.zIndex = '1000';
+            document.body.appendChild(surprise);
+
+            setTimeout(() => {
+                surprise.remove();
+            }, 5000); // Remove after 5 seconds
         }
 
         // Birthday Messages
