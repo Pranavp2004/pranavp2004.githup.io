@@ -229,8 +229,8 @@
         /* Balloons */
         .balloon {
             position: absolute;
-            width: 100px;
-            height: 120px;
+            width: 80px;
+            height: 100px;
             background: #ff6f61;
             border-radius: 50%;
             clip-path: ellipse(25% 40% at 50% 50%);
@@ -295,6 +295,11 @@
             .timer-item {
                 min-width: 100px;
                 padding: 1rem;
+            }
+
+            .balloon {
+                width: 60px;
+                height: 80px;
             }
         }
     </style>
@@ -449,7 +454,7 @@
         }
 
         // Countdown Timer with Indian Standard Time (IST)
-        const birthday = new Date('2025-03-15T00:00:33+05:30').getTime(); // Set your date in IST
+        const birthday = new Date('2025-03-16T00:00:00+05:30').getTime(); // Set your date in IST
 
         function updateTimer() {
             const now = new Date().getTime();
@@ -469,7 +474,7 @@
                 clearInterval(timerInterval);
                 document.getElementById('timer').innerHTML = "<h2>🎉 The Celebration Has Begun! 🎉</h2>";
                 triggerFireworks();
-                showSurprise();
+                triggerBalloonShower();
             }
         }
 
@@ -489,27 +494,30 @@
             setTimeout(() => clearInterval(fireworksInterval), 10000); // Stop after 10 seconds
         }
 
-        // Surprise Effect
-        function showSurprise() {
-            const surprise = document.createElement('div');
-            surprise.innerHTML = `
-                <h2 style="text-align: center; color: var(--dark-color);">🎉 Surprise! 🎉</h2>
-                <p style="text-align: center;">It's time to celebrate! 🎂✨</p>
-            `;
-            surprise.style.position = 'fixed';
-            surprise.style.top = '50%';
-            surprise.style.left = '50%';
-            surprise.style.transform = 'translate(-50%, -50%)';
-            surprise.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
-            surprise.style.padding = '2rem';
-            surprise.style.borderRadius = '20px';
-            surprise.style.boxShadow = '0 10px 30px rgba(0,0,0,0.2)';
-            surprise.style.zIndex = '1000';
-            document.body.appendChild(surprise);
+        // Balloon Shower Effect
+        function triggerBalloonShower() {
+            const balloonContainer = document.createElement('div');
+            balloonContainer.style.position = 'fixed';
+            balloonContainer.style.top = '0';
+            balloonContainer.style.left = '0';
+            balloonContainer.style.width = '100%';
+            balloonContainer.style.height = '100%';
+            balloonContainer.style.pointerEvents = 'none';
+            document.body.appendChild(balloonContainer);
+
+            const colors = ['#ff6f61', '#6b5b95', '#88b04b', '#f7cac9', '#92a8d1'];
+            for (let i = 0; i < 20; i++) {
+                const balloon = document.createElement('div');
+                balloon.className = 'balloon';
+                balloon.style.left = Math.random() * 100 + '%';
+                balloon.style.animationDuration = Math.random() * 6 + 4 + 's';
+                balloon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                balloonContainer.appendChild(balloon);
+            }
 
             setTimeout(() => {
-                surprise.remove();
-            }, 5000); // Remove after 5 seconds
+                balloonContainer.remove();
+            }, 10000); // Remove balloons after 10 seconds
         }
 
         // Birthday Messages
