@@ -63,6 +63,11 @@
             animation: float 3s ease-in-out infinite;
         }
 
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
         .photo-wall {
             padding: 4rem 0;
             position: relative;
@@ -309,6 +314,27 @@
             100% { transform: scale(1); opacity: 1; }
         }
 
+        /* Music Player */
+        #musicToggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        #musicToggle:hover {
+            background: var(--dark-color);
+            transform: scale(1.1);
+        }
+
         /* Footer */
         footer {
             text-align: center;
@@ -366,6 +392,11 @@
 
             .birthday-messages .highlight {
                 font-size: 1.2rem;
+            }
+
+            #musicToggle {
+                font-size: 1rem;
+                padding: 8px 16px;
             }
         }
     </style>
