@@ -394,10 +394,8 @@
     <!-- Birthday Messages Section -->
     <section class="birthday-messages">
         <h2>Leave a Birthday Wish for Gowri!</h2>
-        <form id="messageForm">
-            <textarea placeholder="Write your message here..." required></textarea>
-            <button type="submit">Send</button>
-        </form>
+        <p>
+        </p>
         <div id="messagesContainer"></div>
     </section>
 
@@ -436,7 +434,7 @@
         }
 
         // Countdown Timer with Indian Standard Time (IST)
-        const birthday = new Date('2025-03-15T00:00:00+05:30').getTime(); // Set your date in IST
+        const birthday = new Date('2025-03-15T00:00:04+05:30').getTime(); // Set your date in IST
 
         function updateTimer() {
             const now = new Date().getTime();
@@ -472,7 +470,7 @@
                 });
             }, 500);
 
-            setTimeout(() => clearInterval(fireworksInterval), 5000); // Stop after 5 seconds
+            setTimeout(() => clearInterval(fireworksInterval), 10000); // Stop after 5 seconds
         }
 
         // Birthday Messages
