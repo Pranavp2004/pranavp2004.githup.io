@@ -226,55 +226,19 @@
             animation: fireworks 1s ease-out;
         }
 
-        /* Balloons */
-        .balloon {
+        /* Elegant Animation */
+        @keyframes sparkle {
+            0% { transform: scale(0); opacity: 1; }
+            100% { transform: scale(1); opacity: 0; }
+        }
+
+        .sparkle {
             position: absolute;
-            width: 80px;
-            height: 100px;
-            background: #ff6f61;
+            width: 10px;
+            height: 10px;
+            background: white;
             border-radius: 50%;
-            clip-path: ellipse(25% 40% at 50% 50%);
-            animation: floatBalloon 8s infinite ease-in-out;
-            cursor: pointer;
-        }
-
-        .balloon::after {
-            content: '';
-            position: absolute;
-            bottom: -20px;
-            left: 50%;
-            width: 2px;
-            height: 50px;
-            background: #000;
-        }
-
-        @keyframes floatBalloon {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-
-        /* Surprise Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(255, 255, 255, 0.9);
-            padding: 2rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            z-index: 1000;
-            text-align: center;
-        }
-
-        .modal h2 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-
-        .modal button {
-            margin-top: 1rem;
+            animation: sparkle 1s ease-out;
         }
 
         @media (max-width: 768px) {
@@ -295,11 +259,6 @@
             .timer-item {
                 min-width: 100px;
                 padding: 1rem;
-            }
-
-            .balloon {
-                width: 60px;
-                height: 80px;
             }
         }
     </style>
@@ -454,7 +413,7 @@
         }
 
         // Countdown Timer with Indian Standard Time (IST)
-        const birthday = new Date('2025-03-15T00:00:40+05:30').getTime(); // Set your date in IST
+        const birthday = new Date('2025-03-15T00:47:00+05:30').getTime(); // Set your date in IST
 
         function updateTimer() {
             const now = new Date().getTime();
@@ -474,7 +433,7 @@
                 clearInterval(timerInterval);
                 document.getElementById('timer').innerHTML = "<h2>🎉 The Celebration Has Begun! 🎉</h2>";
                 triggerFireworks();
-                triggerBalloonShower();
+                triggerSparkleEffect();
             }
         }
 
@@ -494,30 +453,29 @@
             setTimeout(() => clearInterval(fireworksInterval), 10000); // Stop after 10 seconds
         }
 
-        // Balloon Shower Effect
-        function triggerBalloonShower() {
-            const balloonContainer = document.createElement('div');
-            balloonContainer.style.position = 'fixed';
-            balloonContainer.style.top = '0';
-            balloonContainer.style.left = '0';
-            balloonContainer.style.width = '100%';
-            balloonContainer.style.height = '100%';
-            balloonContainer.style.pointerEvents = 'none';
-            document.body.appendChild(balloonContainer);
+        // Sparkle Effect
+        function triggerSparkleEffect() {
+            const sparkleContainer = document.createElement('div');
+            sparkleContainer.style.position = 'fixed';
+            sparkleContainer.style.top = '0';
+            sparkleContainer.style.left = '0';
+            sparkleContainer.style.width = '100%';
+            sparkleContainer.style.height = '100%';
+            sparkleContainer.style.pointerEvents = 'none';
+            document.body.appendChild(sparkleContainer);
 
-            const colors = ['#ff6f61', '#6b5b95', '#88b04b', '#f7cac9', '#92a8d1'];
-            for (let i = 0; i < 20; i++) {
-                const balloon = document.createElement('div');
-                balloon.className = 'balloon';
-                balloon.style.left = Math.random() * 100 + '%';
-                balloon.style.animationDuration = Math.random() * 6 + 4 + 's';
-                balloon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                balloonContainer.appendChild(balloon);
+            for (let i = 0; i < 50; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.left = Math.random() * 100 + '%';
+                sparkle.style.top = Math.random() * 100 + '%';
+                sparkle.style.animationDelay = Math.random() * 2 + 's';
+                sparkleContainer.appendChild(sparkle);
             }
 
             setTimeout(() => {
-                balloonContainer.remove();
-            }, 10000); // Remove balloons after 10 seconds
+                sparkleContainer.remove();
+            }, 5000); // Remove sparkles after 5 seconds
         }
 
         // Birthday Messages
@@ -553,30 +511,8 @@
             document.getElementById('surpriseModal').style.display = 'none';
         }
 
-        // Balloons
-        function createBalloons() {
-            const colors = ['#ff6f61', '#6b5b95', '#88b04b', '#f7cac9', '#92a8d1'];
-            for (let i = 0; i < 10; i++) {
-                const balloon = document.createElement('div');
-                balloon.className = 'balloon';
-                balloon.style.left = Math.random() * 100 + '%';
-                balloon.style.animationDuration = Math.random() * 6 + 4 + 's';
-                balloon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                balloon.addEventListener('click', () => {
-                    balloon.remove();
-                    confetti({
-                        particleCount: 50,
-                        spread: 70,
-                        origin: { y: 0.6 }
-                    });
-                });
-                document.body.appendChild(balloon);
-            }
-        }
-
         // Initialize
         createBubbles();
-        createBalloons();
     </script>
 </body>
 </html>
