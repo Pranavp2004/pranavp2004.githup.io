@@ -168,28 +168,145 @@
             text-align: center;
         }
 
-        textarea {
-            width: 80%;
-            height: 100px;
-            padding: 1rem;
-            border-radius: 10px;
-            border: none;
-            margin: 1rem 0;
-            resize: none;
+        .birthday-messages h2 {
+            font-size: 2.5rem;
+            color: var(--dark-color);
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(255,255,255,0.5);
         }
 
-        button {
-            padding: 0.5rem 2rem;
-            border: none;
-            border-radius: 10px;
-            background: var(--primary-color);
-            color: white;
+        .birthday-messages p {
+            font-size: 1.2rem;
+            color: var(--dark-color);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .birthday-messages .highlight {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            text-shadow: 0 0 10px rgba(255,255,255,0.8);
+        }
+
+        /* Virtual Gift Box Section */
+        .gift-box {
+            text-align: center;
+            margin: 4rem 2rem;
+        }
+
+        .gift-container {
+            position: relative;
+            width: 250px;
+            height: 250px;
+            margin: 0 auto;
             cursor: pointer;
+            perspective: 1000px;
         }
 
-        #messagesContainer {
-            margin-top: 2rem;
-            text-align: left;
+        .box {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 1s ease;
+            transform-origin: center center;
+        }
+
+        .box.open {
+            transform: rotateY(180deg) scale(1.1);
+        }
+
+        .front, .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            backface-visibility: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .front {
+            background: linear-gradient(135deg, #ff6f61, #e65a50);
+            transform: rotateY(0deg);
+        }
+
+        .ribbon {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            transform: translateY(-50%);
+        }
+
+        .bow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+        }
+
+        .bow-left, .bow-right {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.8);
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        }
+
+        .bow-left {
+            transform: rotate(-45deg);
+            left: 0;
+        }
+
+        .bow-right {
+            transform: rotate(45deg);
+            right: 0;
+        }
+
+        .bow-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .back {
+            background: linear-gradient(135deg, #e65a50, #ff6f61);
+            transform: rotateY(180deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gift-image {
+            width: 80%;
+            max-width: 300px;
+            border-radius: 10px;
+            display: none;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .box.open .gift-image {
+            display: block;
+            animation: popIn 0.5s ease-in-out;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); opacity: 0; }
+            60% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
         /* Footer */
@@ -199,46 +316,20 @@
             background: rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(10px);
             margin-top: 2rem;
+            position: relative;
         }
 
-        /* Animations */
-        @keyframes float {
+        .floating-text {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--dark-color);
+            animation: floatText 5s infinite ease-in-out;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        @keyframes floatText {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-
-        @keyframes glow {
-            0%, 100% { text-shadow: 0 0 10px rgba(255,255,255,0.8); }
-            50% { text-shadow: 0 0 20px rgba(255,255,255,1); }
-        }
-
-        @keyframes fireworks {
-            0% { transform: scale(0); opacity: 1; }
-            100% { transform: scale(1); opacity: 0; }
-        }
-
-        .firework {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background: white;
-            border-radius: 50%;
-            animation: fireworks 1s ease-out;
-        }
-
-        /* Elegant Animation */
-        @keyframes sparkle {
-            0% { transform: scale(0); opacity: 1; }
-            100% { transform: scale(1); opacity: 0; }
-        }
-
-        .sparkle {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background: white;
-            border-radius: 50%;
-            animation: sparkle 1s ease-out;
+            50% { transform: translateY(-10px); }
         }
 
         @media (max-width: 768px) {
@@ -259,6 +350,22 @@
             .timer-item {
                 min-width: 100px;
                 padding: 1rem;
+            }
+
+            .floating-text {
+                font-size: 1.2rem;
+            }
+
+            .birthday-messages h2 {
+                font-size: 2rem;
+            }
+
+            .birthday-messages p {
+                font-size: 1rem;
+            }
+
+            .birthday-messages .highlight {
+                font-size: 1.2rem;
             }
         }
     </style>
@@ -358,29 +465,37 @@
     <!-- Birthday Messages Section -->
     <section class="birthday-messages">
         <h2>Dear Gowri,</h2>
-        <h3>🎉 Happy Birthday! 🎉</h3>
         <p>
-            On this special day, I want to take a moment to celebrate the amazing person you are! Your kindness, warmth, and positivity light up every room you walk into, and your laughter is truly contagious. You have a way of making everyone around you feel loved and appreciated, and that’s a gift not everyone has.
+            On this special day, I want to celebrate the amazing person you are! Your kindness, warmth, and positivity light up every room you walk into. Your laughter is contagious, and your presence is a gift to everyone around you.
         </p>
-        <p>
-            May this year bring you endless joy, success in all your endeavors, and moments that make your heart smile. You deserve all the happiness in the world and so much more! Here’s to another year of incredible memories, growth, and adventures.
+        <p class="highlight">
+            Wishing you a day filled with love, laughter, and all your favorite things. Have the happiest birthday ever! 🎂🎁✨
         </p>
-        <p>
-            Thank you for being such a wonderful friend and for bringing so much light into my life. I’m so grateful to know you and can’t wait to see all the amazing things you’ll accomplish this year!
-        </p>
-        <p>
-            Wishing you a day filled with love, laughter, and all your favorite things. Have the happiest birthday ever, Gowri! 🎂🎁✨
-        </p>
-        <form id="messageForm">
-            <textarea placeholder="Write your message here..." required></textarea>
-            <button type="submit">Send</button>
-        </form>
-        <div id="messagesContainer"></div>
+    </section>
+
+    <!-- Virtual Gift Box Section -->
+    <section class="gift-box">
+        <h2>Open Your Gift!</h2>
+        <div class="gift-container" onclick="openGift()">
+            <div class="box">
+                <div class="front">
+                    <div class="ribbon"></div>
+                    <div class="bow">
+                        <div class="bow-left"></div>
+                        <div class="bow-right"></div>
+                        <div class="bow-center"></div>
+                    </div>
+                </div>
+                <div class="back">
+                    <img src="your-image.jpg" alt="Special Gift" class="gift-image">
+                </div>
+            </div>
+        </div>
     </section>
 
     <!-- Footer -->
     <footer>
-        <p>Made for fun by Pranav</p>
+        <div class="floating-text">🎉 Wishing you a magical birthday! 🎉</div>
     </footer>
 
     <!-- Music Player -->
@@ -389,13 +504,6 @@
         Your browser does not support the audio element.
     </audio>
     <button id="musicToggle">Play Music</button>
-
-    <!-- Surprise Modal -->
-    <div class="modal" id="surpriseModal">
-        <h2>🎉 Surprise! 🎉</h2>
-        <p>Wishing you a magical birthday filled with joy and laughter!</p>
-        <button onclick="closeModal()">Close</button>
-    </div>
 
     <script>
         // Create animated background
@@ -413,7 +521,7 @@
         }
 
         // Countdown Timer with Indian Standard Time (IST)
-        const birthday = new Date('2025-03-15T00:47:00+05:30').getTime(); // Set your date in IST
+        const birthday = new Date('2025-03-16T00:00:00+05:30').getTime(); // Set your date in IST
 
         function updateTimer() {
             const now = new Date().getTime();
@@ -478,15 +586,20 @@
             }, 5000); // Remove sparkles after 5 seconds
         }
 
-        // Birthday Messages
-        document.getElementById('messageForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-            const message = e.target.querySelector('textarea').value;
-            const messageElement = document.createElement('p');
-            messageElement.textContent = message;
-            document.getElementById('messagesContainer').appendChild(messageElement);
-            e.target.reset();
-        });
+        // Virtual Gift Box
+        function openGift() {
+            const box = document.querySelector('.box');
+            box.classList.toggle('open');
+
+            // Trigger confetti when the box is opened
+            if (box.classList.contains('open')) {
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            }
+        }
 
         // Music Player
         const music = document.getElementById('birthdayMusic');
@@ -501,15 +614,6 @@
                 toggleButton.textContent = 'Play Music';
             }
         });
-
-        // Surprise Modal
-        setTimeout(() => {
-            document.getElementById('surpriseModal').style.display = 'block';
-        }, 10000); // Show modal after 10 seconds
-
-        function closeModal() {
-            document.getElementById('surpriseModal').style.display = 'none';
-        }
 
         // Initialize
         createBubbles();
