@@ -9,6 +9,7 @@
   <script src="https://cdn.jsdelivr.net/npm/babel-standalone@6.26.0/babel.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/framer-motion@11.3.28/dist/framer-motion.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
   <style>
     @tailwind base;
@@ -29,6 +30,15 @@
       overflow-x: hidden;
     }
 
+    #particles-js {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+
     .perspective-1000 {
       perspective: 1000px;
     }
@@ -41,6 +51,21 @@
     .rotate-y-180 {
       transform: rotateY(180deg);
     }
+
+    .loading-spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid var(--primary);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 50px auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
@@ -50,7 +75,28 @@
     const { useState, useEffect, useRef } = React;
     const { motion } = window.FramerMotion;
 
-    // Navigation Bar
+    // Error Boundary Component
+    class ErrorBoundary extends React.Component {
+      state = { hasError: false, error: null };
+
+      static getDerivedStateFromError(error) {
+        return { hasError: true, error };
+      }
+
+      render() {
+        if (this.state.hasError) {
+          return (
+            <div className="text-center text-white p-8">
+              <h2 className="text-2xl font-bold">Something went wrong!</h2>
+              <p>Please check the console for details or ensure all assets are available.</p>
+            </div>
+          );
+        }
+        return this.props.children;
+      }
+    }
+
+    // Navbar Component
     const Navbar = () => (
       <motion.nav
         initial={{ y: -50, opacity: 0 }}
@@ -75,6 +121,7 @@
         transition={{ duration: 1.5 }}
         className="min-h-screen flex flex-col items-center justify-center text-center bg-[url('https://images.unsplash.com/photo-1620121692029-d088224ddc74')] bg-cover bg-center relative"
       >
+        <div id="particles-js"></div>
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 to-black/50"></div>
         <motion.h1
           initial={{ y: 50, opacity: 0 }}
@@ -97,7 +144,8 @@
 
     // Gallery Component
     const Gallery = () => {
-      const images = ['image1.jpg', 'image2.jpg', 'image3.jpg', 'image4.jpg', 'image5.jpg', 'image6.jpg', 'image7.jpg', 'image8.jpg', 'image9.jpg'];
+      const images = Array.from({ length: 9 }, (_, i) => `image${i + 1}.jpg`);
+      const fallbackImage = 'https://via.placeholder.com/300x200?text=Image+Not+Found';
 
       return (
         <section id="gallery" className="py-20 px-4 max-w-7xl mx-auto">
@@ -115,6 +163,10 @@
                 key={index}
                 src={src}
                 alt={`Memory ${index + 1}`}
+                onError={(e) => {
+                  console.warn(`Failed to load image: ${src}`);
+                  e.target.src = fallbackImage;
+                }}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -238,17 +290,40 @@
     // Main App Component
     const App = () => {
       const [isPlaying, setIsPlaying] = useState(false);
+      const [isLoading, setIsLoading] = useState(true);
       const audioRef = useRef(new Audio('your-music.mp3'));
       audioRef.current.loop = true;
 
       useEffect(() => {
-        // Trigger confetti animation on load
+        // Initialize particles.js
+        window.particlesJS('particles-js', {
+          particles: {
+            number: { value: 80, density: { enable: true, value_area: 800 } },
+            color: { value: ['#ff6b6b', '#4ecdc4', '#ffe66d'] },
+            shape: { type: 'circle' },
+            opacity: { value: 0.5, random: true },
+            size: { value: 3, random: true },
+            move: { enable: true, speed: 2, direction: 'none', out_mode: 'out' },
+          },
+          interactivity: {
+            events: { onhover: { enable: true, mode: 'repulse' }, onclick: { enable: true, mode: 'push' } },
+            modes: { repulse: { distance: 100 }, push: { particles_nb: 4 } },
+          },
+        });
+
+        // Trigger confetti
         window.confetti({
           particleCount: 100,
           spread: 70,
           origin: { y: 0.6 },
           colors: ['#ff6b6b', '#4ecdc4', '#ffe66d'],
         });
+
+        // Simulate asset loading
+        setTimeout(() => setIsLoading(false), 2000);
+
+        // Log asset issues
+        audioRef.current.onerror = () => console.warn('Failed to load audio: your-music.mp3');
       }, []);
 
       const toggleMusic = () => {
@@ -260,31 +335,37 @@
         setIsPlaying(!isPlaying);
       };
 
+      if (isLoading) {
+        return <div className="loading-spinner"></div>;
+      }
+
       return (
-        <div className="min-h-screen">
-          <Navbar />
-          <Header toggleMusic={toggleMusic} isPlaying={isPlaying} />
-          <Gallery />
-          <Messages />
-          <motion.div
-            id="wishes"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="flex justify-center mt-16"
-          >
-            <a
-              href="https://wa.me/?text=Happy%20Birthday%20my%20love!%20%F0%9F%92%95%20"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-[var(--secondary)] text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300"
+        <ErrorBoundary>
+          <div className="min-h-screen">
+            <Navbar />
+            <Header toggleMusic={toggleMusic} isPlaying={isPlaying} />
+            <Gallery />
+            <Messages />
+            <motion.div
+              id="wishes"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="flex justify-center mt-16"
             >
-              Send Your Wishes
-            </a>
-          </motion.div>
-          <Countdown />
-          <Footer />
-        </div>
+              <a
+                href="https://wa.me/?text=Happy%20Birthday%20my%20love!%20%F0%9F%92%95%20"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-[var(--secondary)] text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300"
+              >
+                Send Your Wishes
+              </a>
+            </motion.div>
+            <Countdown />
+            <Footer />
+          </div>
+        </ErrorBoundary>
       );
     };
 
