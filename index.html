@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Happy Birthday Celebration</title>
-  <base href="/birthday-page/">
   <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/babel-standalone@6.26.0/babel.min.js"></script>
@@ -12,10 +11,6 @@
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Playfair+Display:wght@700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
   <style>
-    @tailwind base;
-    @tailwind components;
-    @tailwind utilities;
-
     :root {
       --primary: #ff6b6b;
       --secondary: #4ecdc4;
@@ -32,17 +27,8 @@
       overflow-x: hidden;
     }
 
-    .perspective-1000 {
-      perspective: 1000px;
-    }
-    .transform-style-preserve-3d {
-      transform-style: preserve-3d;
-    }
-    .backface-hidden {
-      backface-visibility: hidden;
-    }
-    .rotate-y-180 {
-      transform: rotateY(180deg);
+    #root {
+      min-height: 100vh;
     }
 
     .loading-spinner {
@@ -69,10 +55,6 @@
       color: transparent;
     }
 
-    .floating {
-      animation: floating 3s ease-in-out infinite;
-    }
-
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
@@ -93,7 +75,11 @@
   </style>
 </head>
 <body>
-  <div id="root"></div>
+  <div id="root">
+    <div style="color:white; text-align:center; padding-top:100px">
+      Loading... Please wait
+    </div>
+  </div>
 
   <script type="text/babel">
     const { useState, useEffect, useRef } = React;
@@ -117,7 +103,7 @@
             <div className="min-h-screen flex items-center justify-center text-center p-8">
               <div className="glass-effect rounded-2xl p-8 max-w-md">
                 <h2 className="text-2xl font-bold text-[var(--primary)] mb-4">Something went wrong!</h2>
-                <p className="mb-6">We're working to fix this issue. Please try refreshing the page.</p>
+                <p className="mb-6">Please refresh the page or check the console for errors.</p>
                 <button 
                   onClick={() => window.location.reload()}
                   className="bg-[var(--primary)] text-white px-6 py-2 rounded-full font-medium"
@@ -168,19 +154,7 @@
           >
             Wishes
           </motion.a>
-          <motion.a 
-            href="#countdown" 
-            whileHover={{ scale: 1.1, color: "var(--accent)" }}
-            className="text-white transition-all font-medium"
-          >
-            Countdown
-          </motion.a>
         </div>
-        <button className="md:hidden text-white">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </button>
       </motion.nav>
     );
 
@@ -244,58 +218,22 @@
               </motion.p>
             </motion.div>
 
-            <motion.div
-              className="flex flex-col sm:flex-row gap-4 justify-center"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.2 }}
+            <motion.button
+              whileHover={{ 
+                scale: 1.05, 
+                boxShadow: "0 0 20px rgba(255, 107, 107, 0.8)"
+              }}
+              whileTap={{ scale: 0.95 }}
+              onClick={toggleMusic}
+              className="bg-[var(--primary)] text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg z-10 flex items-center gap-2 mx-auto"
             >
-              <motion.button
-                whileHover={{ 
-                  scale: 1.05, 
-                  boxShadow: "0 0 20px rgba(255, 107, 107, 0.8)"
-                }}
-                whileTap={{ scale: 0.95 }}
-                onClick={toggleMusic}
-                className="bg-[var(--primary)] text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg z-10 flex items-center gap-2"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isPlaying ? "M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z" : "M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"}/>
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                {isPlaying ? 'Pause Music' : 'Play Music'}
-              </motion.button>
-              
-              <motion.a
-                href="#messages"
-                whileHover={{ 
-                  scale: 1.05, 
-                  boxShadow: "0 0 20px rgba(78, 205, 196, 0.8)"
-                }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-[var(--secondary)] text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg z-10 flex items-center gap-2"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-                </svg>
-                Read Messages
-              </motion.a>
-            </motion.div>
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isPlaying ? "M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z" : "M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"}/>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              {isPlaying ? 'Pause Music' : 'Play Music'}
+            </motion.button>
           </div>
-
-          <motion.div 
-            className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
-            animate={{ y: [0, 10, 0] }}
-            transition={{ 
-              repeat: Infinity, 
-              duration: 2,
-              ease: "easeInOut"
-            }}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white/80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-            </svg>
-          </motion.div>
         </motion.header>
       );
     };
@@ -305,8 +243,6 @@
       const images = Array.from({ length: 9 }, (_, i) => `image${i + 1}.jpg`);
       const fallbackImage = 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&h=200&q=80';
       
-      const [selectedImage, setSelectedImage] = useState(null);
-
       return (
         <section id="gallery" className="py-20 px-4 max-w-7xl mx-auto">
           <motion.div
@@ -332,8 +268,7 @@
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 whileHover={{ scale: 1.03 }}
                 viewport={{ once: true }}
-                className="relative group overflow-hidden rounded-2xl shadow-xl cursor-pointer"
-                onClick={() => setSelectedImage(src)}
+                className="relative group overflow-hidden rounded-2xl shadow-xl"
               >
                 <motion.img
                   src={src}
@@ -342,51 +277,11 @@
                     console.warn(`Failed to load image: ${src}`);
                     e.target.src = fallbackImage;
                   }}
-                  className="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-110"
+                  className="w-full h-80 object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                  <h3 className="text-white text-xl font-medium translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                    Memory #{index + 1}
-                  </h3>
-                </div>
               </motion.div>
             ))}
           </div>
-
-          {/* Image Modal */}
-          <AnimatePresence>
-            {selectedImage && (
-              <motion.div 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
-                onClick={() => setSelectedImage(null)}
-              >
-                <motion.div 
-                  initial={{ scale: 0.9 }}
-                  animate={{ scale: 1 }}
-                  exit={{ scale: 0.9 }}
-                  className="relative max-w-4xl w-full"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <img 
-                    src={selectedImage} 
-                    alt="Enlarged memory" 
-                    className="w-full max-h-[90vh] object-contain"
-                  />
-                  <button 
-                    onClick={() => setSelectedImage(null)}
-                    className="absolute top-4 right-4 bg-black/50 text-white p-2 rounded-full hover:bg-black/80 transition-colors"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-                </motion.div>
-              </motion.div>
-            )}
-          </AnimatePresence>
         </section>
       );
     };
@@ -421,11 +316,6 @@
             {/* Back of card */}
             <div className="absolute inset-0 backface-hidden bg-gradient-to-br from-[var(--secondary)] to-[var(--primary)] rounded-2xl rotate-y-180 p-6 flex flex-col items-center justify-center text-center shadow-lg">
               <p className="text-lg font-medium text-white">{backText}</p>
-              <div className="mt-6 text-white/70 text-sm">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
             </div>
           </motion.div>
         </motion.div>
@@ -454,17 +344,7 @@
           front: 'Here\'s to more adventures together. Cheers!', 
           back: 'Our journey together is my favorite story.', 
           icon: '🥂' 
-        },
-        { 
-          front: 'You deserve all the happiness in the world!', 
-          back: 'Seeing you happy is what makes me happiest.', 
-          icon: '✨' 
-        },
-        { 
-          front: 'Thank you for being you!', 
-          back: 'You are perfect just the way you are.', 
-          icon: '🌹' 
-        },
+        }
       ];
 
       return (
@@ -483,7 +363,7 @@
             </p>
           </motion.div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
             {messages.map((msg, index) => (
               <MessageCard 
                 key={index} 
@@ -493,89 +373,6 @@
               />
             ))}
           </div>
-        </section>
-      );
-    };
-
-    // Countdown Component
-    const Countdown = () => {
-      const [time, setTime] = useState({
-        days: '00',
-        hours: '00',
-        minutes: '00',
-        seconds: '00',
-      });
-
-      useEffect(() => {
-        // Set birthday date (next occurrence from today)
-        const today = new Date();
-        const currentYear = today.getFullYear();
-        let birthdayDate = new Date(`May 30, ${currentYear} 00:00:00`);
-        
-        // If birthday has passed this year, set for next year
-        if (today > birthdayDate) {
-          birthdayDate = new Date(`May 30, ${currentYear + 1} 00:00:00`);
-        }
-
-        const interval = setInterval(() => {
-          const now = new Date().getTime();
-          const timeLeft = birthdayDate - now;
-
-          const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-          const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-          const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-          const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000;
-
-          setTime({
-            days: days < 10 ? `0${days}` : days,
-            hours: hours < 10 ? `0${hours}` : hours,
-            minutes: minutes < 10 ? `0${minutes}` : minutes,
-            seconds: seconds < 10 ? `0${seconds}` : seconds,
-          });
-        }, 1000);
-
-        return () => clearInterval(interval);
-      }, []);
-
-      return (
-        <section id="countdown" className="py-20 px-4 max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-gradient font-['Playfair_Display'] mb-4">
-              Until Your Next Birthday
-            </h2>
-            <p className="text-lg text-white/80 max-w-2xl mx-auto">
-              Counting down the moments until we celebrate you again
-            </p>
-          </motion.div>
-          
-          <motion.div
-            className="grid grid-cols-4 gap-4 max-w-3xl mx-auto"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.8 }}
-          >
-            {Object.entries(time).map(([unit, value]) => (
-              <motion.div 
-                key={unit}
-                whileHover={{ scale: 1.05 }}
-                className="text-center"
-              >
-                <div className="bg-white/10 rounded-xl p-4 backdrop-blur-sm">
-                  <div className="text-4xl md:text-5xl font-bold text-[var(--accent)] mb-2">
-                    {value}
-                  </div>
-                  <div className="text-sm uppercase tracking-wider text-white/80">
-                    {unit}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
         </section>
       );
     };
@@ -590,10 +387,7 @@
         e.preventDefault();
         if (name.trim() && message.trim()) {
           setIsSubmitted(true);
-          // In a real app, you would send this data to a server
-          setTimeout(() => {
-            window.open(`https://wa.me/?text=Happy%20Birthday!%20From%20${encodeURIComponent(name)}:%20${encodeURIComponent(message)}`, '_blank');
-          }, 1500);
+          window.open(`https://wa.me/?text=Happy%20Birthday!%20From%20${encodeURIComponent(name)}:%20${encodeURIComponent(message)}`, '_blank');
         }
       };
 
@@ -613,65 +407,55 @@
             </p>
           </motion.div>
 
-          <AnimatePresence>
-            {isSubmitted ? (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="bg-white/10 rounded-2xl p-8 text-center backdrop-blur-sm"
+          {isSubmitted ? (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="bg-white/10 rounded-2xl p-8 text-center backdrop-blur-sm"
+            >
+              <div className="text-6xl mb-4">🎉</div>
+              <h3 className="text-2xl font-bold text-white mb-2">Thank You!</h3>
+              <p className="text-white/80 mb-6">Your birthday wish has been sent with love!</p>
+            </motion.div>
+          ) : (
+            <motion.form
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              onSubmit={handleSubmit}
+              className="glass-effect rounded-2xl p-6 md:p-8"
+            >
+              <div className="mb-6">
+                <label htmlFor="name" className="block text-white/80 mb-2">Your Name</label>
+                <input
+                  type="text"
+                  id="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                  required
+                />
+              </div>
+              <div className="mb-8">
+                <label htmlFor="message" className="block text-white/80 mb-2">Your Message</label>
+                <textarea
+                  id="message"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  rows="4"
+                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                  required
+                ></textarea>
+              </div>
+              <motion.button
+                type="submit"
+                whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(255, 230, 109, 0.5)" }}
+                whileTap={{ scale: 0.95 }}
+                className="w-full bg-[var(--accent)] text-gray-900 px-6 py-3 rounded-lg font-semibold text-lg"
               >
-                <div className="text-6xl mb-4">🎉</div>
-                <h3 className="text-2xl font-bold text-white mb-2">Thank You!</h3>
-                <p className="text-white/80 mb-6">Your birthday wish has been sent with love!</p>
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => setIsSubmitted(false)}
-                  className="bg-[var(--primary)] text-white px-6 py-2 rounded-full font-medium"
-                >
-                  Send Another Wish
-                </motion.button>
-              </motion.div>
-            ) : (
-              <motion.form
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                onSubmit={handleSubmit}
-                className="glass-effect rounded-2xl p-6 md:p-8"
-              >
-                <div className="mb-6">
-                  <label htmlFor="name" className="block text-white/80 mb-2">Your Name</label>
-                  <input
-                    type="text"
-                    id="name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
-                    required
-                  />
-                </div>
-                <div className="mb-8">
-                  <label htmlFor="message" className="block text-white/80 mb-2">Your Message</label>
-                  <textarea
-                    id="message"
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    rows="4"
-                    className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
-                    required
-                  ></textarea>
-                </div>
-                <motion.button
-                  type="submit"
-                  whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(255, 230, 109, 0.5)" }}
-                  whileTap={{ scale: 0.95 }}
-                  className="w-full bg-[var(--accent)] text-gray-900 px-6 py-3 rounded-lg font-semibold text-lg"
-                >
-                  Send Birthday Wish
-                </motion.button>
-              </motion.form>
-            )}
-          </AnimatePresence>
+                Send Birthday Wish
+              </motion.button>
+            </motion.form>
+          )}
         </section>
       );
     };
@@ -692,42 +476,13 @@
             🎂
           </motion.div>
           <h3 className="text-2xl font-bold text-white mb-4 font-['Playfair_Display']">
-            Happy Birthday, My Love!
+            Happy Birthday!
           </h3>
           <p className="text-white/70 mb-6 max-w-2xl mx-auto">
-            This special day is all about you. May it be filled with joy, laughter, and all the things you love most.
+            Made with love for someone special
           </p>
-          <div className="flex justify-center space-x-4 mb-6">
-            <motion.a 
-              href="#" 
-              whileHover={{ y: -3 }}
-              className="text-white/70 hover:text-[var(--primary)] transition-colors"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/>
-              </svg>
-            </motion.a>
-            <motion.a 
-              href="#" 
-              whileHover={{ y: -3 }}
-              className="text-white/70 hover:text-[var(--primary)] transition-colors"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-              </svg>
-            </motion.a>
-            <motion.a 
-              href="#" 
-              whileHover={{ y: -3 }}
-              className="text-white/70 hover:text-[var(--primary)] transition-colors"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
-              </svg>
-            </motion.a>
-          </div>
           <p className="text-sm text-white/50">
-            © {new Date().getFullYear()} Birthday Celebration. All rights reserved.
+            © {new Date().getFullYear()} Birthday Celebration
           </p>
         </div>
       </motion.footer>
@@ -740,24 +495,20 @@
       const audioRef = useRef(null);
 
       useEffect(() => {
-        // Initialize audio
-        audioRef.current = new Audio('your-music.mp3');
+        // Initialize audio with correct path
+        audioRef.current = new Audio('birthday-song.mp3');
         audioRef.current.loop = true;
         
-        // Set up error handling
         const handleAudioError = () => {
-          console.warn('Failed to load audio: /birthday-page/your-music.mp3');
-          // Fallback to a different audio source if needed
-          // audioRef.current = new Audio('https://example.com/fallback-music.mp3');
+          console.warn('Failed to load audio: birthday-song.mp3');
+          alert('Music could not be loaded. Please check the file exists.');
         };
         
         audioRef.current.addEventListener('error', handleAudioError);
         
-        // Simulate asset loading
+        // Simulate loading
         const loadingTimer = setTimeout(() => {
           setIsLoading(false);
-          
-          // Initial confetti burst
           window.confetti({
             particleCount: 200,
             spread: 70,
@@ -771,19 +522,19 @@
           if (audioRef.current) {
             audioRef.current.pause();
             audioRef.current.removeEventListener('error', handleAudioError);
-            audioRef.current = null;
           }
         };
       }, []);
 
       const toggleMusic = () => {
+        if (!audioRef.current) return;
+        
         if (isPlaying) {
           audioRef.current.pause();
         } else {
           audioRef.current.play().catch((e) => {
             console.log('Audio play failed:', e);
-            // Show a user-friendly message if audio fails to play
-            alert('Unable to play music. Please check your browser permissions or try a different browser.');
+            alert('Unable to play music. Please interact with the page first or check browser permissions.');
           });
         }
         setIsPlaying(!isPlaying);
@@ -807,7 +558,6 @@
             <Header toggleMusic={toggleMusic} isPlaying={isPlaying} />
             <Gallery />
             <Messages />
-            <Countdown />
             <Wishes />
             <Footer />
           </div>
@@ -816,7 +566,20 @@
     };
 
     // Render the App
-    ReactDOM.render(<App />, document.getElementById('root'));
+    try {
+      ReactDOM.render(<App />, document.getElementById('root'));
+    } catch (e) {
+      console.error("Failed to render app:", e);
+      document.getElementById('root').innerHTML = `
+        <div style="color:white; text-align:center; padding:50px">
+          <h2>Error Loading Page</h2>
+          <p>Please check the console for details</p>
+          <button onclick="window.location.reload()" style="margin-top:20px; padding:10px 20px; background:#ff6b6b; border:none; border-radius:5px; color:white">
+            Reload Page
+          </button>
+        </div>
+      `;
+    }
   </script>
 </body>
 </html>
