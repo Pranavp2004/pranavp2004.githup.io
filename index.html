@@ -4,315 +4,191 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Happy Birthday!</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: #121212;
-      color: #fff;
-      overflow-x: hidden;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    header {
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      position: relative;
-      background: url('your-dark-background.jpg') no-repeat center center/cover;
-      background-size: cover;
-      filter: brightness(0.5);
-      transition: all 1s ease;
-    }
-    header h1 {
-      font-size: 4rem;
-      margin-bottom: 1.5rem;
-      color: #fff;
-      text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.8);
-      animation: fadeIn 2s ease-in-out;
-    }
-    header button {
-      padding: 15px 30px;
-      background: #f39c12;
-      color: #121212;
-      border: none;
-      border-radius: 30px;
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 1.1rem;
-      transition: 0.3s;
-      box-shadow: 0 0 10px rgba(255, 165, 0, 0.8);
-      animation: buttonFadeIn 2s ease-in-out;
-    }
-    header button:hover {
-      background: #fff;
-      color: #000;
-      box-shadow: 0 0 20px rgba(255, 165, 0, 1);
-    }
-    section {
-      padding: 80px 20px;
-      max-width: 1200px;
-      margin: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 40px;
-      justify-content: center;
-    }
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 20px;
-      transition: transform 1s;
-    }
-    .gallery img {
-      width: 100%;
-      height: auto;
-      border-radius: 15px;
-      transition: transform 0.5s ease;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
-    }
-    .gallery img:hover {
-      transform: scale(1.1);
-      box-shadow: 0 0 25px rgba(255, 165, 0, 0.7);
-    }
-    .messages {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-      margin-top: 40px;
-    }
-    .card {
-      background: #333;
-      padding: 20px;
-      border-radius: 15px;
-      border: 1px solid #555;
-      transition: 0.3s;
-      perspective: 1000px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-      transform: scale(1);
-    }
-    .card:hover .card-content {
-      transform: rotateY(180deg);
-    }
-    .card-content {
-      transition: transform 0.5s;
-      transform-style: preserve-3d;
-      position: relative;
-    }
-    .card-content div {
-      backface-visibility: hidden;
-      border-radius: 15px;
-    }
-    .card .front {
-      background-image: url('card-front.jpg');
-      background-size: cover;
-      color: #fff;
-      padding: 20px;
-      text-align: center;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 200px;
-    }
-    .card .back {
-      background-image: url('card-back.jpg');
-      background-size: cover;
-      color: #f39c12;
-      padding: 20px;
-      transform: rotateY(180deg);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 200px;
-      text-align: center;
-    }
-    .card:hover {
-      transform: scale(1.1);
-      transition: transform 0.3s;
-    }
-    .whatsapp {
-      display: flex;
-      justify-content: center;
-      margin-top: 40px;
-      animation: fadeIn 2s ease-in-out;
-    }
-    .whatsapp a {
-      background: #25d366;
-      padding: 15px 25px;
-      border-radius: 50px;
-      color: white;
-      font-size: 18px;
-      text-decoration: none;
-      font-weight: bold;
-      transition: 0.3s;
-    }
-    .whatsapp a:hover {
-      background: #128c7e;
-    }
-    .countdown {
-      font-size: 3rem;
-      color: #fff;
-      margin-top: 30px;
-      font-weight: bold;
-      text-align: center;
-      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      align-items: center;
-    }
-    .countdown span {
-      font-size: 4rem;
-      color: #f39c12;
-      font-family: 'Courier New', Courier, monospace;
-      letter-spacing: 3px;
-    }
-    .bg-toggle {
-      margin-top: 30px;
-      background: #e74c3c;
-      color: #fff;
-      padding: 12px 25px;
-      border-radius: 50px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: 0.3s;
-    }
-    .bg-toggle:hover {
-      background: #c0392b;
-    }
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
-    }
-    @keyframes buttonFadeIn {
-      from {
-        transform: translateY(20px);
-        opacity: 0;
-      }
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
-  </style>
+  <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/babel-standalone@6.26.0/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+  <div id="root"></div>
 
-<audio id="bg-music" src="your-music.mp3" loop></audio>
+  <script type="text/babel">
+    const { useState, useEffect } = React;
 
-<header>
-  <h1>Happy Birthday, Love! 🎂</h1>
-  <button onclick="toggleMusic()">Play/Pause Music</button>
-</header>
+    // Header Component with Animated Text and Music Toggle
+    const Header = ({ toggleMusic, isPlaying }) => (
+      <header className="min-h-screen flex flex-col items-center justify-center text-center bg-[url('https://images.unsplash.com/photo-1516541196182-6bdb0516ed5d')] bg-cover bg-center relative">
+        <div className="absolute inset-0 bg-black opacity-50"></div>
+        <h1 className="text-5xl md:text-7xl font-bold text-white mb-8 drop-shadow-lg animate-fadeIn z-10">
+          Happy Birthday, Love! 🎂
+        </h1>
+        <button
+          onClick={toggleMusic}
+          className="bg-orange-500 text-gray-900 px-6 py-3 rounded-full font-semibold text-lg hover:bg-white hover:text-black transition-all duration-300 shadow-lg hover:shadow-xl z-10 animate-slideUp"
+        >
+          {isPlaying ? 'Pause Music' : 'Play Music'}
+        </button>
+      </header>
+    );
 
-<section class="gallery">
-  <h2 style="text-align:center; margin-bottom:30px;">Our Moments 📸</h2>
-  <img src="gallery1.jpg" alt="Memory 1">
-  <img src="gallery2.jpg" alt="Memory 2">
-  <img src="gallery3.jpg" alt="Memory 3">
-  <img src="gallery4.jpg" alt="Memory 4">
-  <img src="gallery5.jpg" alt="Memory 5">
-</section>
+    // Gallery Component
+    const Gallery = () => (
+      <section className="py-16 px-4 max-w-7xl mx-auto">
+        <h2 className="text-4xl font-bold text-center text-white mb-10">Our Moments 📸</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {['gallery1.jpg', 'gallery2.jpg', 'gallery3.jpg', 'gallery4.jpg', 'gallery5.jpg'].map((src, index) => (
+            <img
+              key={index}
+              src={src}
+              alt={`Memory ${index + 1}`}
+              className="w-full h-64 object-cover rounded-xl shadow-lg hover:scale-105 hang-0 duration-300"
+            />
+          ))}
+        </div>
+      </section>
+    );
 
-<section class="messages">
-  <div class="card">
-    <div class="card-content">
-      <div class="front">
-        Wishing you a day filled with love and laughter! 💖
+    // Message Card Component with Flip Animation
+    const MessageCard = ({ frontText, backText }) => (
+      <div className="relative bg-gray-800 p-6 rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 group perspective-1000">
+        <div className="relative transition-transform duration-500 transform-style-preserve-3d group-hover:rotate-y-180">
+          <div className="absolute inset-0 bg-[url('card-front.jpg')] bg-cover rounded-xl flex items-center justify-center text-white text-center p-4 h-48 backface-hidden">
+            {frontText}
+          </div>
+          <div className="absolute inset-0 bg-[url('card-back.jpg')] bg-cover rounded-xl flex items-center justify-center text-orange-400 text-center p-4 h-48 backface-hidden rotate-y-180">
+            {backText}
+          </div>
+        </div>
       </div>
-      <div class="back">
-        You mean the world to me! 🌍
-      </div>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-content">
-      <div class="front">
-        Every moment with you is a blessing. Happy Birthday! 🎉
-      </div>
-      <div class="back">
-        I am so grateful for you! 🙏
-      </div>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-content">
-      <div class="front">
-        May your dreams take flight today and always! 🕊️
-      </div>
-      <div class="back">
-        I believe in you! ✨
-      </div>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-content">
-      <div class="front">
-        Here's to more adventures together. Cheers! 🥂
-      </div>
-      <div class="back">
-        Here's to many more birthdays! 🎉
-      </div>
-    </div>
-  </div>
-</section>
+    );
 
-<div class="whatsapp">
-  <a href="https://wa.me/?text=Happy%20Birthday%20my%20love!%20%F0%9F%92%95%20" target="_blank">Send Your Wishes</a>
-</div>
+    // Messages Section
+    const Messages = () => {
+      const messages = [
+        { front: 'Wishing you a day filled with love and laughter! 💖', back: 'You mean the world to me! 🌍' },
+        { front: 'Every moment with you is a blessing. Happy Birthday! 🎉', back: 'I am so grateful for you! 🙏' },
+        { front: 'May your dreams take flight today and always! 🕊️', back: 'I believe in you! ✨' },
+        { front: "Here's to more adventures together. Cheers! 🥂", back: "Here's to many more birthdays! 🎉" },
+      ];
 
-<div class="countdown">
-  <span id="days"></span>:<span id="hours"></span>:<span id="minutes"></span>:<span id="seconds"></span>
-</div>
+      return (
+        <section className="py-16 px-4 max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {messages.map((msg, index) => (
+              <MessageCard key={index} frontText={msg.front} backText={msg.back} />
+            ))}
+          </div>
+        </section>
+      );
+    };
 
-<script>
-  function toggleMusic() {
-    const music = document.getElementById('bg-music');
-    const button = document.querySelector('header button');
-    if (music.paused) {
-      music.play();
-      button.textContent = "Pause Music";
-    } else {
-      music.pause();
-      button.textContent = "Play Music";
+    // Countdown Component
+    const Countdown = () => {
+      const [time, setTime] = useState({
+        days: 0,
+        hours: 0,
+        minutes: 0,
+        seconds: 0,
+      });
+
+      useEffect(() => {
+        const birthdayDate = new Date("May 30, 2025 00:00:00").getTime();
+        const interval = setInterval(() => {
+          const now = new Date().getTime();
+          const timeLeft = birthdayDate - now;
+
+          const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+          const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+          setTime({
+            days: days < 10 ? `0${days}` : days,
+            hours: hours < 10 ? `0${hours}` : hours,
+            minutes: minutes < 10 ? `0${minutes}` : minutes,
+            seconds: seconds < 10 ? `0${seconds}` : seconds,
+          });
+        }, 1000);
+
+        return () => clearInterval(interval);
+      }, []);
+
+      return (
+        <div className="text-4xl md:text-5xl font-bold text-center text-white mt-12 flex justify-center gap-4">
+          <span className="text-orange-400">{time.days}</span>:
+          <span className="text-orange-400">{time.hours}</span>:
+          <span className="text-orange-400">{time.minutes}</span>:
+          <span className="text-orange-400">{time.seconds}</span>
+        </div>
+      );
+    };
+
+    // Main App Component
+    const App = () => {
+      const [isPlaying, setIsPlaying] = useState(false);
+      const audioRef = React.useRef(new Audio('your-music.mp3'));
+      audioRef.current.loop = true;
+
+      const toggleMusic = () => {
+        if (isPlaying) {
+          audioRef.current.pause();
+        } else {
+          audioRef.current.play();
+        }
+        setIsPlaying(!isPlaying);
+      };
+
+      return (
+        <div className="font-poppins bg-gray-900 min-h-screen">
+          <Header toggleMusic={toggleMusic} isPlaying={isPlaying} />
+          <Gallery />
+          <Messages />
+          <div className="flex justify-center mt-12">
+            <a
+              href="https://wa.me/?text=Happy%20Birthday%20my%20love!%20%F0%9F%92%95%20"
+              target="_blank"
+              className="bg-green-500 text-white px-6 py-3 rounded-full font-semibold text-lg hover:bg-green-600 transition-all duration-300 shadow-lg hover:shadow-xl"
+            >
+              Send Your Wishes
+            </a>
+          </div>
+          <Countdown />
+        </div>
+      );
+    };
+
+    // Render the App
+    ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
+
+  <style>
+    .perspective-1000 {
+      perspective: 1000px;
     }
-  }
-
-  function startCountdown() {
-    const birthdayDate = new Date("May 30, 2025 00:00:00").getTime();
-    
-    const daysElem = document.getElementById('days');
-    const hoursElem = document.getElementById('hours');
-    const minutesElem = document.getElementById('minutes');
-    const secondsElem = document.getElementById('seconds');
-
-    setInterval(function() {
-      const now = new Date().getTime();
-      const timeLeft = birthdayDate - now;
-      
-      const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-
-      daysElem.innerHTML = days < 10 ? '0' + days : days;
-      hoursElem.innerHTML = hours < 10 ? '0' + hours : hours;
-      minutesElem.innerHTML = minutes < 10 ? '0' + minutes : minutes;
-      secondsElem.innerHTML = seconds < 10 ? '0' + seconds : seconds;
-    }, 1000);
-  }
-
-  startCountdown();
-</script>
-
+    .transform-style-preserve-3d {
+      transform-style: preserve-3d;
+    }
+    .backface-hidden {
+      backface-visibility: hidden;
+    }
+    .rotate-y-180 {
+      transform: rotateY(180deg);
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .animate-fadeIn {
+      animation: fadeIn 2s ease-in-out;
+    }
+    .animate-slideUp {
+      animation: slideUp 2s ease-in-out;
+    }
+  </style>
 </body>
 </html>
