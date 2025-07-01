@@ -82,6 +82,15 @@
   </div>
 
   <script type="text/babel">
+    // Debugging check
+    console.log("Script started executing");
+    try {
+      console.log("React version:", React.version);
+      console.log("ReactDOM version:", ReactDOM.version);
+    } catch (e) {
+      console.error("React not loaded:", e);
+    }
+
     const { useState, useEffect, useRef } = React;
     const { motion, AnimatePresence } = window.FramerMotion;
 
@@ -94,7 +103,7 @@
       }
 
       componentDidCatch(error, errorInfo) {
-        console.error("ErrorBoundary caught an error:", error, errorInfo);
+        console.error("ErrorBoundary caught:", error, errorInfo);
       }
 
       render() {
@@ -103,7 +112,7 @@
             <div className="min-h-screen flex items-center justify-center text-center p-8">
               <div className="glass-effect rounded-2xl p-8 max-w-md">
                 <h2 className="text-2xl font-bold text-[var(--primary)] mb-4">Something went wrong!</h2>
-                <p className="mb-6">Please refresh the page or check the console for errors.</p>
+                <p className="mb-4">Please check console for details.</p>
                 <button 
                   onClick={() => window.location.reload()}
                   className="bg-[var(--primary)] text-white px-6 py-2 rounded-full font-medium"
@@ -495,30 +504,30 @@
       const audioRef = useRef(null);
 
       useEffect(() => {
-        // Initialize audio with correct path
+        console.log("Initializing audio");
         audioRef.current = new Audio('birthday-song.mp3');
         audioRef.current.loop = true;
         
         const handleAudioError = () => {
-          console.warn('Failed to load audio: birthday-song.mp3');
-          alert('Music could not be loaded. Please check the file exists.');
+          console.error("Audio failed to load");
+          setIsLoading(false); // Continue even if audio fails
         };
         
         audioRef.current.addEventListener('error', handleAudioError);
         
-        // Simulate loading
-        const loadingTimer = setTimeout(() => {
+        // Simulate loading (remove setTimeout in production)
+        const timer = setTimeout(() => {
+          console.log("Finished loading");
           setIsLoading(false);
           window.confetti({
-            particleCount: 200,
+            particleCount: 100,
             spread: 70,
-            origin: { y: 0.6 },
-            colors: ['#ff6b6b', '#4ecdc4', '#ffe66d'],
+            origin: { y: 0.6 }
           });
         }, 1500);
 
         return () => {
-          clearTimeout(loadingTimer);
+          clearTimeout(timer);
           if (audioRef.current) {
             audioRef.current.pause();
             audioRef.current.removeEventListener('error', handleAudioError);
@@ -527,14 +536,17 @@
       }, []);
 
       const toggleMusic = () => {
-        if (!audioRef.current) return;
+        if (!audioRef.current) {
+          console.warn("Audio not initialized");
+          return;
+        }
         
         if (isPlaying) {
           audioRef.current.pause();
         } else {
-          audioRef.current.play().catch((e) => {
-            console.log('Audio play failed:', e);
-            alert('Unable to play music. Please interact with the page first or check browser permissions.');
+          audioRef.current.play().catch(e => {
+            console.error("Playback failed:", e);
+            alert("Please interact with the page first to enable audio");
           });
         }
         setIsPlaying(!isPlaying);
@@ -545,7 +557,7 @@
           <div className="min-h-screen flex items-center justify-center">
             <div className="text-center">
               <div className="loading-spinner mb-4"></div>
-              <p className="text-white/80">Preparing something special...</p>
+              <p className="text-white/80">Preparing your celebration...</p>
             </div>
           </div>
         );
@@ -565,18 +577,21 @@
       );
     };
 
-    // Render the App
+    // Render with extensive error handling
     try {
+      console.log("Attempting to render React app");
       ReactDOM.render(<App />, document.getElementById('root'));
     } catch (e) {
-      console.error("Failed to render app:", e);
+      console.error("Critical render error:", e);
       document.getElementById('root').innerHTML = `
         <div style="color:white; text-align:center; padding:50px">
-          <h2>Error Loading Page</h2>
-          <p>Please check the console for details</p>
-          <button onclick="window.location.reload()" style="margin-top:20px; padding:10px 20px; background:#ff6b6b; border:none; border-radius:5px; color:white">
+          <h2 style="color:red">Failed to Load Page</h2>
+          <p>${e.message}</p>
+          <button onclick="window.location.reload()" 
+            style="margin-top:20px; padding:10px 20px; background:#ff6b6b; border:none; border-radius:5px; color:white">
             Reload Page
           </button>
+          <p style="margin-top:20px">Check console (F12) for details</p>
         </div>
       `;
     }
