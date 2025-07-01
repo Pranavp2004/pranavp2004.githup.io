@@ -3,598 +3,152 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Happy Birthday Celebration</title>
-  <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/babel-standalone@6.26.0/babel.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/framer-motion@11.3.28/dist/framer-motion.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Playfair+Display:wght@700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+  <title>Happy Birthday!</title>
   <style>
-    :root {
-      --primary: #ff6b6b;
-      --secondary: #4ecdc4;
-      --accent: #ffe66d;
-      --dark: #1a1a1a;
-      --light: #f8f9fa;
-    }
-
     body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, var(--dark) 0%, #2c2c2c 100%);
-      color: var(--light);
+      font-family: 'Arial', sans-serif;
+      background: #1a1a1a;
+      color: white;
       margin: 0;
-      overflow-x: hidden;
+      text-align: center;
     }
-
-    #root {
-      min-height: 100vh;
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
     }
-
-    .loading-spinner {
-      border: 4px solid rgba(255, 255, 255, 0.1);
-      border-top: 4px solid var(--primary);
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      animation: spin 1s linear infinite;
-      margin: 50px auto;
+    h1 {
+      color: #ff6b6b;
+      font-size: 3rem;
+      margin-bottom: 20px;
     }
-
-    .glass-effect {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      margin: 40px 0;
     }
-
-    .text-gradient {
-      background: linear-gradient(45deg, var(--primary), var(--accent));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+    .gallery img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 10px;
+      transition: transform 0.3s;
     }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    .gallery img:hover {
+      transform: scale(1.03);
     }
-
-    @keyframes floating {
-      0% { transform: translateY(0px); }
-      50% { transform: translateY(-15px); }
-      100% { transform: translateY(0px); }
+    button {
+      background: #4ecdc4;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 1.2rem;
+      border-radius: 50px;
+      cursor: pointer;
+      margin: 20px;
+      transition: all 0.3s;
     }
-
-    .parallax-bg {
-      background-attachment: fixed;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
+    button:hover {
+      background: #3aa89f;
+      transform: scale(1.05);
+    }
+    .message {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      border-radius: 15px;
+      margin: 40px 0;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
     }
   </style>
 </head>
 <body>
-  <div id="root">
-    <div style="color:white; text-align:center; padding-top:100px">
-      Loading... Please wait
+  <div class="container">
+    <h1>Happy Birthday! 🎉</h1>
+    <p>Wishing you an amazing day filled with joy and happiness!</p>
+    
+    <button id="musicBtn">Play Music</button>
+    
+    <div class="gallery">
+      <img src="image1.jpg" alt="Birthday memory 1" onerror="this.src='https://via.placeholder.com/300x200?text=Image+1+Missing'">
+      <img src="image2.jpg" alt="Birthday memory 2" onerror="this.src='https://via.placeholder.com/300x200?text=Image+2+Missing'">
+      <img src="image3.jpg" alt="Birthday memory 3" onerror="this.src='https://via.placeholder.com/300x200?text=Image+3+Missing'">
+      <img src="image4.jpg" alt="Birthday memory 4" onerror="this.src='https://via.placeholder.com/300x200?text=Image+4+Missing'">
+      <img src="image5.jpg" alt="Birthday memory 5" onerror="this.src='https://via.placeholder.com/300x200?text=Image+5+Missing'">
+      <img src="image6.jpg" alt="Birthday memory 6" onerror="this.src='https://via.placeholder.com/300x200?text=Image+6+Missing'">
+      <img src="image7.jpg" alt="Birthday memory 7" onerror="this.src='https://via.placeholder.com/300x200?text=Image+7+Missing'">
+      <img src="image8.jpg" alt="Birthday memory 8" onerror="this.src='https://via.placeholder.com/300x200?text=Image+8+Missing'">
+      <img src="image9.jpg" alt="Birthday memory 9" onerror="this.src='https://via.placeholder.com/300x200?text=Image+9+Missing'">
+    </div>
+    
+    <div class="message">
+      <h2>Special Message</h2>
+      <p>You are amazing and deserve all the happiness in the world! Thank you for being you.</p>
     </div>
   </div>
 
-  <script type="text/babel">
-    // Debugging check
-    console.log("Script started executing");
-    try {
-      console.log("React version:", React.version);
-      console.log("ReactDOM version:", ReactDOM.version);
-    } catch (e) {
-      console.error("React not loaded:", e);
-    }
-
-    const { useState, useEffect, useRef } = React;
-    const { motion, AnimatePresence } = window.FramerMotion;
-
-    // Error Boundary Component
-    class ErrorBoundary extends React.Component {
-      state = { hasError: false, error: null };
-
-      static getDerivedStateFromError(error) {
-        return { hasError: true, error };
-      }
-
-      componentDidCatch(error, errorInfo) {
-        console.error("ErrorBoundary caught:", error, errorInfo);
-      }
-
-      render() {
-        if (this.state.hasError) {
-          return (
-            <div className="min-h-screen flex items-center justify-center text-center p-8">
-              <div className="glass-effect rounded-2xl p-8 max-w-md">
-                <h2 className="text-2xl font-bold text-[var(--primary)] mb-4">Something went wrong!</h2>
-                <p className="mb-4">Please check console for details.</p>
-                <button 
-                  onClick={() => window.location.reload()}
-                  className="bg-[var(--primary)] text-white px-6 py-2 rounded-full font-medium"
-                >
-                  Refresh Page
-                </button>
-              </div>
-            </div>
-          );
-        }
-        return this.props.children;
-      }
-    }
-
-    // Navbar Component
-    const Navbar = () => (
-      <motion.nav
-        initial={{ y: -50, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        className="fixed top-0 left-0 right-0 glass-effect z-50 py-4 px-6 flex justify-between items-center"
-      >
-        <motion.h1 
-          whileHover={{ scale: 1.05 }}
-          className="text-2xl font-bold text-gradient font-['Playfair_Display']"
-        >
-          Birthday Bliss
-        </motion.h1>
-        <div className="hidden md:flex space-x-6">
-          <motion.a 
-            href="#gallery" 
-            whileHover={{ scale: 1.1, color: "var(--accent)" }}
-            className="text-white transition-all font-medium"
-          >
-            Gallery
-          </motion.a>
-          <motion.a 
-            href="#messages" 
-            whileHover={{ scale: 1.1, color: "var(--accent)" }}
-            className="text-white transition-all font-medium"
-          >
-            Messages
-          </motion.a>
-          <motion.a 
-            href="#wishes" 
-            whileHover={{ scale: 1.1, color: "var(--accent)" }}
-            className="text-white transition-all font-medium"
-          >
-            Wishes
-          </motion.a>
-        </div>
-      </motion.nav>
-    );
-
-    // Header Component
-    const Header = ({ toggleMusic, isPlaying }) => {
-      const [showConfetti, setShowConfetti] = useState(true);
-      
-      useEffect(() => {
-        const timer = setTimeout(() => setShowConfetti(false), 5000);
-        return () => clearTimeout(timer);
-      }, []);
-
-      return (
-        <motion.header
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.5 }}
-          className="min-h-screen flex flex-col items-center justify-center text-center parallax-bg relative overflow-hidden"
-          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')" }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-b from-black/70 to-black/50"></div>
-          
-          <AnimatePresence>
-            {showConfetti && (
-              <motion.div 
-                initial={{ opacity: 1 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="absolute inset-0 pointer-events-none"
-                onAnimationComplete={() => {
-                  window.confetti({
-                    particleCount: 150,
-                    spread: 70,
-                    origin: { y: 0.6 },
-                    colors: ['#ff6b6b', '#4ecdc4', '#ffe66d'],
-                  });
-                }}
-              />
-            )}
-          </AnimatePresence>
-
-          <div className="relative z-10 px-4">
-            <motion.div
-              initial={{ y: 50, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 1, delay: 0.5 }}
-              className="mb-8"
-            >
-              <motion.h1
-                className="text-5xl md:text-7xl font-extrabold text-gradient font-['Playfair_Display'] mb-6 drop-shadow-2xl tracking-tight leading-tight"
-              >
-                Happy Birthday, My Love!
-              </motion.h1>
-              <motion.p 
-                className="text-xl md:text-2xl text-white/90 max-w-2xl mx-auto"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1 }}
-              >
-                Celebrating you and all the joy you bring to my life
-              </motion.p>
-            </motion.div>
-
-            <motion.button
-              whileHover={{ 
-                scale: 1.05, 
-                boxShadow: "0 0 20px rgba(255, 107, 107, 0.8)"
-              }}
-              whileTap={{ scale: 0.95 }}
-              onClick={toggleMusic}
-              className="bg-[var(--primary)] text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg z-10 flex items-center gap-2 mx-auto"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isPlaying ? "M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z" : "M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"}/>
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              {isPlaying ? 'Pause Music' : 'Play Music'}
-            </motion.button>
-          </div>
-        </motion.header>
-      );
-    };
-
-    // Gallery Component
-    const Gallery = () => {
-      const images = Array.from({ length: 9 }, (_, i) => `image${i + 1}.jpg`);
-      const fallbackImage = 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&h=200&q=80';
-      
-      return (
-        <section id="gallery" className="py-20 px-4 max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-gradient font-['Playfair_Display'] mb-4">
-              Our Precious Moments
-            </h2>
-            <p className="text-lg text-white/80 max-w-2xl mx-auto">
-              A collection of memories that make my heart skip a beat
-            </p>
-          </motion.div>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {images.map((src, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ scale: 1.03 }}
-                viewport={{ once: true }}
-                className="relative group overflow-hidden rounded-2xl shadow-xl"
-              >
-                <motion.img
-                  src={src}
-                  alt={`Memory ${index + 1}`}
-                  onError={(e) => {
-                    console.warn(`Failed to load image: ${src}`);
-                    e.target.src = fallbackImage;
-                  }}
-                  className="w-full h-80 object-cover"
-                />
-              </motion.div>
-            ))}
-          </div>
-        </section>
-      );
-    };
-
-    // Message Card Component
-    const MessageCard = ({ frontText, backText, icon }) => {
-      const [isFlipped, setIsFlipped] = useState(false);
-      
-      return (
-        <motion.div
-          className="relative h-64 perspective-1000"
-          whileHover={{ scale: 1.03 }}
-          onClick={() => setIsFlipped(!isFlipped)}
-        >
-          <motion.div
-            className="relative w-full h-full transform-style-preserve-3d transition-transform duration-700"
-            animate={{ rotateY: isFlipped ? 180 : 0 }}
-          >
-            {/* Front of card */}
-            <div className="absolute inset-0 backface-hidden bg-gradient-to-br from-[var(--primary)] to-[var(--secondary)] rounded-2xl p-6 flex flex-col items-center justify-center text-center shadow-lg">
-              <div className="text-4xl mb-4">{icon}</div>
-              <p className="text-lg font-medium text-white">{frontText}</p>
-              <motion.div 
-                className="absolute bottom-4 text-white/70 text-sm"
-                animate={{ opacity: [0.6, 1, 0.6] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              >
-                Click to flip
-              </motion.div>
-            </div>
-            
-            {/* Back of card */}
-            <div className="absolute inset-0 backface-hidden bg-gradient-to-br from-[var(--secondary)] to-[var(--primary)] rounded-2xl rotate-y-180 p-6 flex flex-col items-center justify-center text-center shadow-lg">
-              <p className="text-lg font-medium text-white">{backText}</p>
-            </div>
-          </motion.div>
-        </motion.div>
-      );
-    };
-
-    // Messages Section
-    const Messages = () => {
-      const messages = [
-        { 
-          front: 'Wishing you a day filled with love and laughter!', 
-          back: 'You make every moment brighter just by being you.', 
-          icon: '💖' 
-        },
-        { 
-          front: 'Every moment with you is a blessing. Happy Birthday!', 
-          back: 'I cherish all our memories and look forward to creating more.', 
-          icon: '🎉' 
-        },
-        { 
-          front: 'May your dreams take flight today and always!', 
-          back: 'I will always be here to support you in everything you do.', 
-          icon: '🕊️' 
-        },
-        { 
-          front: 'Here\'s to more adventures together. Cheers!', 
-          back: 'Our journey together is my favorite story.', 
-          icon: '🥂' 
-        }
-      ];
-
-      return (
-        <section id="messages" className="py-20 px-4 max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-gradient font-['Playfair_Display'] mb-4">
-              Heartfelt Messages
-            </h2>
-            <p className="text-lg text-white/80 max-w-2xl mx-auto">
-              Words can't fully express how much you mean to me
-            </p>
-          </motion.div>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
-            {messages.map((msg, index) => (
-              <MessageCard 
-                key={index} 
-                frontText={msg.front} 
-                backText={msg.back} 
-                icon={msg.icon}
-              />
-            ))}
-          </div>
-        </section>
-      );
-    };
-
-    // Wishes Section
-    const Wishes = () => {
-      const [name, setName] = useState('');
-      const [message, setMessage] = useState('');
-      const [isSubmitted, setIsSubmitted] = useState(false);
-
-      const handleSubmit = (e) => {
-        e.preventDefault();
-        if (name.trim() && message.trim()) {
-          setIsSubmitted(true);
-          window.open(`https://wa.me/?text=Happy%20Birthday!%20From%20${encodeURIComponent(name)}:%20${encodeURIComponent(message)}`, '_blank');
-        }
-      };
-
-      return (
-        <section id="wishes" className="py-20 px-4 max-w-3xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-gradient font-['Playfair_Display'] mb-4">
-              Send Your Wishes
-            </h2>
-            <p className="text-lg text-white/80">
-              Share your birthday message and warm wishes
-            </p>
-          </motion.div>
-
-          {isSubmitted ? (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="bg-white/10 rounded-2xl p-8 text-center backdrop-blur-sm"
-            >
-              <div className="text-6xl mb-4">🎉</div>
-              <h3 className="text-2xl font-bold text-white mb-2">Thank You!</h3>
-              <p className="text-white/80 mb-6">Your birthday wish has been sent with love!</p>
-            </motion.div>
-          ) : (
-            <motion.form
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              onSubmit={handleSubmit}
-              className="glass-effect rounded-2xl p-6 md:p-8"
-            >
-              <div className="mb-6">
-                <label htmlFor="name" className="block text-white/80 mb-2">Your Name</label>
-                <input
-                  type="text"
-                  id="name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
-                  required
-                />
-              </div>
-              <div className="mb-8">
-                <label htmlFor="message" className="block text-white/80 mb-2">Your Message</label>
-                <textarea
-                  id="message"
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  rows="4"
-                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
-                  required
-                ></textarea>
-              </div>
-              <motion.button
-                type="submit"
-                whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(255, 230, 109, 0.5)" }}
-                whileTap={{ scale: 0.95 }}
-                className="w-full bg-[var(--accent)] text-gray-900 px-6 py-3 rounded-lg font-semibold text-lg"
-              >
-                Send Birthday Wish
-              </motion.button>
-            </motion.form>
-          )}
-        </section>
-      );
-    };
-
-    // Footer Component
-    const Footer = () => (
-      <motion.footer
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        className="py-12 px-4 bg-black/80 text-center"
-      >
-        <div className="max-w-7xl mx-auto">
-          <motion.div 
-            whileHover={{ scale: 1.05 }}
-            className="text-4xl text-[var(--primary)] mb-6"
-          >
-            🎂
-          </motion.div>
-          <h3 className="text-2xl font-bold text-white mb-4 font-['Playfair_Display']">
-            Happy Birthday!
-          </h3>
-          <p className="text-white/70 mb-6 max-w-2xl mx-auto">
-            Made with love for someone special
-          </p>
-          <p className="text-sm text-white/50">
-            © {new Date().getFullYear()} Birthday Celebration
-          </p>
-        </div>
-      </motion.footer>
-    );
-
-    // Main Component
-    const App = () => {
-      const [isPlaying, setIsPlaying] = useState(false);
-      const [isLoading, setIsLoading] = useState(true);
-      const audioRef = useRef(null);
-
-      useEffect(() => {
-        console.log("Initializing audio");
-        audioRef.current = new Audio('birthday-song.mp3');
-        audioRef.current.loop = true;
-        
-        const handleAudioError = () => {
-          console.error("Audio failed to load");
-          setIsLoading(false); // Continue even if audio fails
-        };
-        
-        audioRef.current.addEventListener('error', handleAudioError);
-        
-        // Simulate loading (remove setTimeout in production)
-        const timer = setTimeout(() => {
-          console.log("Finished loading");
-          setIsLoading(false);
-          window.confetti({
-            particleCount: 100,
-            spread: 70,
-            origin: { y: 0.6 }
+  <script>
+    // Simple music player
+    const musicBtn = document.getElementById('musicBtn');
+    let audio = new Audio('birthday-song.mp3');
+    let isPlaying = false;
+    
+    // Fallback if audio fails to load
+    audio.addEventListener('error', function() {
+      console.log("Audio failed to load");
+      musicBtn.textContent = "Music Unavailable";
+      musicBtn.style.background = "#999";
+      musicBtn.disabled = true;
+    });
+    
+    musicBtn.addEventListener('click', function() {
+      if (isPlaying) {
+        audio.pause();
+        musicBtn.textContent = "Play Music";
+      } else {
+        audio.play()
+          .then(() => {
+            musicBtn.textContent = "Pause Music";
+          })
+          .catch(error => {
+            console.log("Playback failed:", error);
+            alert("Please click anywhere on the page first to enable audio");
           });
-        }, 1500);
-
-        return () => {
-          clearTimeout(timer);
-          if (audioRef.current) {
-            audioRef.current.pause();
-            audioRef.current.removeEventListener('error', handleAudioError);
-          }
-        };
-      }, []);
-
-      const toggleMusic = () => {
-        if (!audioRef.current) {
-          console.warn("Audio not initialized");
-          return;
-        }
-        
-        if (isPlaying) {
-          audioRef.current.pause();
-        } else {
-          audioRef.current.play().catch(e => {
-            console.error("Playback failed:", e);
-            alert("Please interact with the page first to enable audio");
-          });
-        }
-        setIsPlaying(!isPlaying);
-      };
-
-      if (isLoading) {
-        return (
-          <div className="min-h-screen flex items-center justify-center">
-            <div className="text-center">
-              <div className="loading-spinner mb-4"></div>
-              <p className="text-white/80">Preparing your celebration...</p>
-            </div>
-          </div>
-        );
       }
-
-      return (
-        <ErrorBoundary>
-          <div className="min-h-screen">
-            <Navbar />
-            <Header toggleMusic={toggleMusic} isPlaying={isPlaying} />
-            <Gallery />
-            <Messages />
-            <Wishes />
-            <Footer />
-          </div>
-        </ErrorBoundary>
-      );
-    };
-
-    // Render with extensive error handling
-    try {
-      console.log("Attempting to render React app");
-      ReactDOM.render(<App />, document.getElementById('root'));
-    } catch (e) {
-      console.error("Critical render error:", e);
-      document.getElementById('root').innerHTML = `
-        <div style="color:white; text-align:center; padding:50px">
-          <h2 style="color:red">Failed to Load Page</h2>
-          <p>${e.message}</p>
-          <button onclick="window.location.reload()" 
-            style="margin-top:20px; padding:10px 20px; background:#ff6b6b; border:none; border-radius:5px; color:white">
-            Reload Page
-          </button>
-          <p style="margin-top:20px">Check console (F12) for details</p>
-        </div>
-      `;
+      isPlaying = !isPlaying;
+    });
+    
+    // Simple confetti effect
+    function showConfetti() {
+      const canvas = document.createElement('canvas');
+      canvas.style.position = 'fixed';
+      canvas.style.top = '0';
+      canvas.style.left = '0';
+      canvas.style.width = '100%';
+      canvas.style.height = '100%';
+      canvas.style.pointerEvents = 'none';
+      canvas.style.zIndex = '1000';
+      document.body.appendChild(canvas);
+      
+      const confetti = window.confetti.create(canvas);
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+      
+      setTimeout(() => {
+        document.body.removeChild(canvas);
+      }, 5000);
     }
+    
+    // Show confetti when page loads
+    window.addEventListener('load', showConfetti);
   </script>
+  
+  <!-- Load confetti library -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </body>
 </html>
