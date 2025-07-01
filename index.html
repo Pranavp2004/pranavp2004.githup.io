@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Happy Birthday Celebration</title>
+  <base href="/birthday-app/">
   <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/babel-standalone@6.26.0/babel.min.js"></script>
@@ -133,7 +134,7 @@
         </motion.h1>
         <motion.button
           whileHover={{ scale: 1.1, boxShadow: "0 0 20px rgba(255, 107, 107, 0.8)" }}
-          whileTap={{ scale: 0.95 }}
+          whileTap={{=logging:1px; transform: scale(0.95); }
           onClick={toggleMusic}
           className="bg-[var(--primary)] text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg z-10"
         >
@@ -144,7 +145,7 @@
 
     // Gallery Component
     const Gallery = () => {
-      const images = Array.from({ length: 9 }, (_, i) => `image${i + 1}.jpg`);
+      const images = Array.from({ length: 9 }, (_, i) => `/birthday-app/assets/image${i + 1}.jpg`);
       const fallbackImage = 'https://via.placeholder.com/300x200?text=Image+Not+Found';
 
       return (
@@ -191,10 +192,10 @@
           whileHover={{ rotateY: 180 }}
           transition={{ duration: 0.6 }}
         >
-          <div className="absolute inset-0 bg-[url('card-front.jpg')] bg-cover rounded-2xl flex items-center justify-center text-white text-center p-6 h-64 backface-hidden">
+          <div className="absolute inset-0 bg-[url('/birthday-app/assets/card-front.jpg')] bg-cover rounded-2xl flex items-center justify-center text-white text-center p-6 h-64 backface-hidden">
             <p className="text-lg font-semibold">{frontText}</p>
           </div>
-          <div className="absolute inset-0 bg-[url('card-back.jpg')] bg-cover rounded-2xl flex items-center justify-center text-[var(--secondary)] text-center p-6 h-64 backface-hidden rotate-y-180">
+          <div className="absolute inset-0 bg-[url('/birthday-app/assets/card-back.jpg')] bg-cover rounded-2xl flex items-center justify-center text-[var(--secondary)] text-center p-6 h-64 backface-hidden rotate-y-180">
             <p className="text-lg font-semibold">{backText}</p>
           </div>
         </motion.div>
@@ -291,7 +292,7 @@
     const App = () => {
       const [isPlaying, setIsPlaying] = useState(false);
       const [isLoading, setIsLoading] = useState(true);
-      const audioRef = useRef(new Audio('your-music.mp3'));
+      const audioRef = useRef(new Audio('/birthday-app/assets/your-music.mp3'));
       audioRef.current.loop = true;
 
       useEffect(() => {
@@ -322,8 +323,8 @@
         // Simulate asset loading
         setTimeout(() => setIsLoading(false), 2000);
 
-        // Log asset issues
-        audioRef.current.onerror = () => console.warn('Failed to load audio: your-music.mp3');
+        // Log audio errors
+        audioRef.current.onerror = () => console.warn('Failed to load audio: /birthday-app/assets/your-music.mp3');
       }, []);
 
       const toggleMusic = () => {
