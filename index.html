@@ -3,152 +3,646 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Happy Birthday!</title>
+  <title>Happy Birthday Celebration</title>
+  <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/babel-standalone@6.26.0/babel.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/framer-motion@11.3.28/dist/framer-motion.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      background: #1a1a1a;
-      color: white;
+    :root {
+      --primary: #FF6B6B;
+      --secondary: #4ECDC4;
+      --accent: #FFE66D;
+      --dark: #1A1A1A;
+      --light: #F8F9FA;
+    }
+
+    * {
+      box-sizing: border-box;
       margin: 0;
-      text-align: center;
+      padding: 0;
     }
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--dark);
+      color: var(--light);
+      overflow-x: hidden;
     }
-    h1 {
-      color: #ff6b6b;
-      font-size: 3rem;
-      margin-bottom: 20px;
+
+    #root {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 20px;
-      margin: 40px 0;
+
+    /* Loading spinner */
+    .loader {
+      width: 48px;
+      height: 48px;
+      border: 5px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      border-top-color: var(--primary);
+      animation: spin 1s ease-in-out infinite;
+      margin: 2rem auto;
     }
-    .gallery img {
-      width: 100%;
-      height: 300px;
-      object-fit: cover;
-      border-radius: 10px;
-      transition: transform 0.3s;
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
-    .gallery img:hover {
-      transform: scale(1.03);
-    }
-    button {
-      background: #4ecdc4;
-      color: white;
-      border: none;
-      padding: 12px 24px;
-      font-size: 1.2rem;
-      border-radius: 50px;
-      cursor: pointer;
-      margin: 20px;
-      transition: all 0.3s;
-    }
-    button:hover {
-      background: #3aa89f;
-      transform: scale(1.05);
-    }
-    .message {
+
+    /* Glass morphism effect */
+    .glass {
       background: rgba(255, 255, 255, 0.1);
-      padding: 30px;
-      border-radius: 15px;
-      margin: 40px 0;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    /* Text gradient */
+    .text-gradient {
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--dark);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--primary);
+      border-radius: 4px;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Happy Birthday! 🎉</h1>
-    <p>Wishing you an amazing day filled with joy and happiness!</p>
-    
-    <button id="musicBtn">Play Music</button>
-    
-    <div class="gallery">
-      <img src="image1.jpg" alt="Birthday memory 1" onerror="this.src='https://via.placeholder.com/300x200?text=Image+1+Missing'">
-      <img src="image2.jpg" alt="Birthday memory 2" onerror="this.src='https://via.placeholder.com/300x200?text=Image+2+Missing'">
-      <img src="image3.jpg" alt="Birthday memory 3" onerror="this.src='https://via.placeholder.com/300x200?text=Image+3+Missing'">
-      <img src="image4.jpg" alt="Birthday memory 4" onerror="this.src='https://via.placeholder.com/300x200?text=Image+4+Missing'">
-      <img src="image5.jpg" alt="Birthday memory 5" onerror="this.src='https://via.placeholder.com/300x200?text=Image+5+Missing'">
-      <img src="image6.jpg" alt="Birthday memory 6" onerror="this.src='https://via.placeholder.com/300x200?text=Image+6+Missing'">
-      <img src="image7.jpg" alt="Birthday memory 7" onerror="this.src='https://via.placeholder.com/300x200?text=Image+7+Missing'">
-      <img src="image8.jpg" alt="Birthday memory 8" onerror="this.src='https://via.placeholder.com/300x200?text=Image+8+Missing'">
-      <img src="image9.jpg" alt="Birthday memory 9" onerror="this.src='https://via.placeholder.com/300x200?text=Image+9+Missing'">
-    </div>
-    
-    <div class="message">
-      <h2>Special Message</h2>
-      <p>You are amazing and deserve all the happiness in the world! Thank you for being you.</p>
-    </div>
-  </div>
+  <div id="root"></div>
 
-  <script>
-    // Simple music player
-    const musicBtn = document.getElementById('musicBtn');
-    let audio = new Audio('birthday-song.mp3');
-    let isPlaying = false;
-    
-    // Fallback if audio fails to load
-    audio.addEventListener('error', function() {
-      console.log("Audio failed to load");
-      musicBtn.textContent = "Music Unavailable";
-      musicBtn.style.background = "#999";
-      musicBtn.disabled = true;
-    });
-    
-    musicBtn.addEventListener('click', function() {
-      if (isPlaying) {
-        audio.pause();
-        musicBtn.textContent = "Play Music";
-      } else {
-        audio.play()
-          .then(() => {
-            musicBtn.textContent = "Pause Music";
-          })
-          .catch(error => {
-            console.log("Playback failed:", error);
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+    const { motion, AnimatePresence } = window.FramerMotion;
+
+    // ========== COMPONENTS ========== //
+
+    const LoadingScreen = () => (
+      <div className="flex flex-col items-center justify-center h-screen">
+        <div className="loader"></div>
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ repeat: Infinity, repeatType: "reverse", duration: 1.5 }}
+          className="text-white mt-4"
+        >
+          Preparing your celebration...
+        </motion.p>
+      </div>
+    );
+
+    const Navbar = () => (
+      <motion.nav
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ type: "spring", stiffness: 100 }}
+        className="glass fixed top-0 left-0 right-0 z-50 py-4 px-6 flex justify-between items-center shadow-lg"
+      >
+        <motion.h1 
+          whileHover={{ scale: 1.05 }}
+          className="text-2xl font-bold text-gradient font-['Dancing_Script']"
+        >
+          Birthday Magic
+        </motion.h1>
+        <div className="hidden md:flex space-x-6">
+          {['Gallery', 'Messages', 'Wishes'].map((item) => (
+            <motion.a
+              key={item}
+              href={`#${item.toLowerCase()}`}
+              whileHover={{ scale: 1.1, color: "var(--accent)" }}
+              className="text-white transition-all font-medium"
+            >
+              {item}
+            </motion.a>
+          ))}
+        </div>
+      </motion.nav>
+    );
+
+    const HeroSection = ({ toggleMusic, isPlaying }) => {
+      const [showConfetti, setShowConfetti] = useState(true);
+
+      useEffect(() => {
+        const timer = setTimeout(() => setShowConfetti(false), 5000);
+        return () => clearTimeout(timer);
+      }, []);
+
+      return (
+        <section className="relative h-screen flex items-center justify-center overflow-hidden">
+          {/* Background with parallax effect */}
+          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1513151233558-d860c5398176?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')] bg-cover bg-center bg-fixed"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-black/70 to-black/50"></div>
+          
+          {/* Confetti */}
+          <AnimatePresence>
+            {showConfetti && (
+              <motion.div 
+                initial={{ opacity: 1 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="absolute inset-0 pointer-events-none"
+                onAnimationComplete={() => {
+                  window.confetti({
+                    particleCount: 200,
+                    spread: 80,
+                    origin: { y: 0.6 },
+                    colors: ['#FF6B6B', '#4ECDC4', '#FFE66D'],
+                  });
+                }}
+              />
+            )}
+          </AnimatePresence>
+
+          {/* Content */}
+          <div className="relative z-10 text-center px-4">
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1 }}
+            >
+              <motion.h1
+                className="text-5xl md:text-7xl font-bold text-gradient mb-6 leading-tight"
+              >
+                Happy Birthday! <br /> <span className="font-['Dancing_Script']">My Love</span>
+              </motion.h1>
+              <motion.p 
+                className="text-xl md:text-2xl text-white/90 max-w-2xl mx-auto mb-10"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+              >
+                Today is all about celebrating you and the wonderful person you are
+              </motion.p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1 }}
+            >
+              <motion.button
+                whileHover={{ 
+                  scale: 1.05, 
+                  boxShadow: "0 0 20px rgba(255, 107, 107, 0.8)"
+                }}
+                whileTap={{ scale: 0.95 }}
+                onClick={toggleMusic}
+                className="glass px-8 py-4 rounded-full font-semibold text-lg flex items-center gap-2 mx-auto"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isPlaying ? "M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z" : "M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"}/>
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                {isPlaying ? 'Pause Music' : 'Play Music'}
+              </motion.button>
+            </motion.div>
+          </div>
+
+          {/* Scroll indicator */}
+          <motion.div 
+            className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
+            animate={{ y: [0, 15, 0] }}
+            transition={{ 
+              repeat: Infinity, 
+              duration: 2,
+              ease: "easeInOut"
+            }}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white/80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
+          </motion.div>
+        </section>
+      );
+    };
+
+    const Gallery = () => {
+      const images = Array.from({ length: 9 }, (_, i) => `image${i + 1}.jpg`);
+      const [selectedImage, setSelectedImage] = useState(null);
+
+      return (
+        <section id="gallery" className="py-20 px-4 max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-gradient mb-4">
+              Our Special Moments
+            </h2>
+            <p className="text-lg text-white/80 max-w-2xl mx-auto">
+              Memories that make every day brighter
+            </p>
+          </motion.div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {images.map((src, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="relative group overflow-hidden rounded-2xl cursor-pointer"
+                onClick={() => setSelectedImage(src)}
+              >
+                <motion.img
+                  src={src}
+                  alt={`Memory ${index + 1}`}
+                  className="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-110"
+                  onError={(e) => {
+                    e.target.src = `https://via.placeholder.com/600x400?text=Memory+${index + 1}`;
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                  <h3 className="text-white text-xl font-medium translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                    Memory #{index + 1}
+                  </h3>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Image Modal */}
+          <AnimatePresence>
+            {selectedImage && (
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
+                onClick={() => setSelectedImage(null)}
+              >
+                <motion.div 
+                  initial={{ scale: 0.9 }}
+                  animate={{ scale: 1 }}
+                  exit={{ scale: 0.9 }}
+                  className="relative max-w-4xl w-full"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <img 
+                    src={selectedImage} 
+                    alt="Enlarged memory" 
+                    className="w-full max-h-[90vh] object-contain"
+                  />
+                  <button 
+                    onClick={() => setSelectedImage(null)}
+                    className="absolute top-4 right-4 bg-black/50 text-white p-2 rounded-full hover:bg-black/80 transition-colors"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </section>
+      );
+    };
+
+    const Messages = () => {
+      const messages = [
+        { 
+          front: 'Wishing you endless joy and happiness!', 
+          back: 'You deserve all the wonderful things life has to offer.', 
+          icon: '💖',
+          bg: 'from-[#FF6B6B] to-[#FF8E8E]'
+        },
+        { 
+          front: 'May your day be as special as you are!', 
+          back: 'Thank you for being such an amazing person in my life.', 
+          icon: '🎁',
+          bg: 'from-[#4ECDC4] to-[#6CE5E5]'
+        },
+        { 
+          front: 'Here\'s to another year of wonderful memories!', 
+          back: 'I cherish every moment we spend together.', 
+          icon: '🥂',
+          bg: 'from-[#FFE66D] to-[#FFF19E]'
+        },
+        { 
+          front: 'You make the world a better place!', 
+          back: 'Your kindness and warmth inspire everyone around you.', 
+          icon: '✨',
+          bg: 'from-[#9C6BFF] to-[#B88CFF]'
+        }
+      ];
+
+      return (
+        <section id="messages" className="py-20 px-4 max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-gradient mb-4">
+              Heartfelt Wishes
+            </h2>
+            <p className="text-lg text-white/80 max-w-2xl mx-auto">
+              Messages straight from the heart
+            </p>
+          </motion.div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {messages.map((msg, index) => (
+              <MessageCard 
+                key={index}
+                frontText={msg.front}
+                backText={msg.back}
+                icon={msg.icon}
+                bg={msg.bg}
+              />
+            ))}
+          </div>
+        </section>
+      );
+    };
+
+    const MessageCard = ({ frontText, backText, icon, bg }) => {
+      const [isFlipped, setIsFlipped] = useState(false);
+      
+      return (
+        <motion.div
+          className="relative h-64 perspective-1000"
+          whileHover={{ scale: 1.03 }}
+          onClick={() => setIsFlipped(!isFlipped)}
+        >
+          <motion.div
+            className="relative w-full h-full transform-style-preserve-3d transition-transform duration-700"
+            animate={{ rotateY: isFlipped ? 180 : 0 }}
+          >
+            {/* Front of card */}
+            <div className={`absolute inset-0 backface-hidden rounded-2xl p-6 flex flex-col items-center justify-center text-center shadow-lg bg-gradient-to-br ${bg}`}>
+              <div className="text-5xl mb-4">{icon}</div>
+              <p className="text-lg font-medium text-white">{frontText}</p>
+              <motion.div 
+                className="absolute bottom-4 text-white/80 text-sm"
+                animate={{ opacity: [0.6, 1, 0.6] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                Click to flip
+              </motion.div>
+            </div>
+            
+            {/* Back of card */}
+            <div className={`absolute inset-0 backface-hidden rounded-2xl rotate-y-180 p-6 flex flex-col items-center justify-center text-center shadow-lg bg-gradient-to-br ${bg}`}>
+              <p className="text-lg font-medium text-white">{backText}</p>
+            </div>
+          </motion.div>
+        </motion.div>
+      );
+    };
+
+    const WishesForm = () => {
+      const [name, setName] = useState('');
+      const [message, setMessage] = useState('');
+      const [isSubmitted, setIsSubmitted] = useState(false);
+
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        if (name.trim() && message.trim()) {
+          setIsSubmitted(true);
+          // In a real app, you would send this data to a server
+          setTimeout(() => {
+            window.open(`https://wa.me/?text=Happy%20Birthday!%20From%20${encodeURIComponent(name)}:%20${encodeURIComponent(message)}`, '_blank');
+          }, 1500);
+        }
+      };
+
+      return (
+        <section id="wishes" className="py-20 px-4 max-w-3xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-gradient mb-4">
+              Send Your Wishes
+            </h2>
+            <p className="text-lg text-white/80">
+              Share your personal birthday message
+            </p>
+          </motion.div>
+
+          <AnimatePresence mode="wait">
+            {isSubmitted ? (
+              <motion.div
+                key="thank-you"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                className="glass rounded-2xl p-8 text-center"
+              >
+                <div className="text-6xl mb-4">🎉</div>
+                <h3 className="text-2xl font-bold text-white mb-2">Thank You!</h3>
+                <p className="text-white/80 mb-6">Your birthday wish has been sent with love!</p>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setIsSubmitted(false)}
+                  className="bg-[var(--primary)] text-white px-6 py-2 rounded-full font-medium"
+                >
+                  Send Another Wish
+                </motion.button>
+              </motion.div>
+            ) : (
+              <motion.form
+                key="form"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+                onSubmit={handleSubmit}
+                className="glass rounded-2xl p-6 md:p-8"
+              >
+                <div className="mb-6">
+                  <label htmlFor="name" className="block text-white/80 mb-2 text-left">Your Name</label>
+                  <input
+                    type="text"
+                    id="name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                    required
+                  />
+                </div>
+                <div className="mb-8">
+                  <label htmlFor="message" className="block text-white/80 mb-2 text-left">Your Message</label>
+                  <textarea
+                    id="message"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    rows="4"
+                    className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                    required
+                  ></textarea>
+                </div>
+                <motion.button
+                  type="submit"
+                  whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(255, 230, 109, 0.5)" }}
+                  whileTap={{ scale: 0.95 }}
+                  className="w-full bg-[var(--accent)] text-gray-900 px-6 py-3 rounded-lg font-semibold text-lg"
+                >
+                  Send Birthday Wish
+                </motion.button>
+              </motion.form>
+            )}
+          </AnimatePresence>
+        </section>
+      );
+    };
+
+    const Footer = () => (
+      <motion.footer
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true }}
+        className="py-12 px-4 bg-black/80 text-center mt-auto"
+      >
+        <div className="max-w-7xl mx-auto">
+          <motion.div 
+            whileHover={{ scale: 1.2 }}
+            className="text-5xl text-[var(--primary)] mb-6 inline-block"
+          >
+            🎂
+          </motion.div>
+          <h3 className="text-2xl font-bold text-white mb-4 font-['Dancing_Script']">
+            Happy Birthday!
+          </h3>
+          <p className="text-white/70 mb-6 max-w-2xl mx-auto">
+            Made with ❤️ for someone very special
+          </p>
+          <div className="flex justify-center space-x-6 mb-6">
+            {['🎈', '🎉', '🎁', '✨'].map((emoji, i) => (
+              <motion.span
+                key={i}
+                whileHover={{ y: -5, scale: 1.2 }}
+                className="text-2xl cursor-default"
+              >
+                {emoji}
+              </motion.span>
+            ))}
+          </div>
+          <p className="text-sm text-white/50">
+            © {new Date().getFullYear()} Birthday Celebration
+          </p>
+        </div>
+      </motion.footer>
+    );
+
+    // ========== MAIN APP ========== //
+
+    const App = () => {
+      const [isPlaying, setIsPlaying] = useState(false);
+      const [isLoading, setIsLoading] = useState(true);
+      const audioRef = useRef(null);
+
+      useEffect(() => {
+        // Initialize audio
+        audioRef.current = new Audio('birthday-song.mp3');
+        audioRef.current.loop = true;
+        
+        // Error handling
+        const handleAudioError = () => {
+          console.warn('Audio failed to load');
+          setIsLoading(false); // Continue loading even if audio fails
+        };
+        
+        audioRef.current.addEventListener('error', handleAudioError);
+        
+        // Simulate loading (remove timeout in production)
+        const timer = setTimeout(() => {
+          setIsLoading(false);
+          // Initial confetti
+          window.confetti({
+            particleCount: 150,
+            spread: 70,
+            origin: { y: 0.6 }
+          });
+        }, 2000);
+
+        return () => {
+          clearTimeout(timer);
+          if (audioRef.current) {
+            audioRef.current.pause();
+            audioRef.current.removeEventListener('error', handleAudioError);
+          }
+        };
+      }, []);
+
+      const toggleMusic = () => {
+        if (!audioRef.current) return;
+        
+        if (isPlaying) {
+          audioRef.current.pause();
+        } else {
+          audioRef.current.play().catch(e => {
+            console.error("Audio playback failed:", e);
             alert("Please click anywhere on the page first to enable audio");
           });
+        }
+        setIsPlaying(!isPlaying);
+      };
+
+      if (isLoading) {
+        return <LoadingScreen />;
       }
-      isPlaying = !isPlaying;
-    });
-    
-    // Simple confetti effect
-    function showConfetti() {
-      const canvas = document.createElement('canvas');
-      canvas.style.position = 'fixed';
-      canvas.style.top = '0';
-      canvas.style.left = '0';
-      canvas.style.width = '100%';
-      canvas.style.height = '100%';
-      canvas.style.pointerEvents = 'none';
-      canvas.style.zIndex = '1000';
-      document.body.appendChild(canvas);
-      
-      const confetti = window.confetti.create(canvas);
-      confetti({
-        particleCount: 100,
-        spread: 70,
-        origin: { y: 0.6 }
-      });
-      
-      setTimeout(() => {
-        document.body.removeChild(canvas);
-      }, 5000);
+
+      return (
+        <div className="min-h-screen">
+          <Navbar />
+          <HeroSection toggleMusic={toggleMusic} isPlaying={isPlaying} />
+          <Gallery />
+          <Messages />
+          <WishesForm />
+          <Footer />
+        </div>
+      );
+    };
+
+    // ========== RENDER ========== //
+
+    try {
+      ReactDOM.render(<App />, document.getElementById('root'));
+    } catch (e) {
+      console.error("Failed to render app:", e);
+      document.getElementById('root').innerHTML = `
+        <div class="min-h-screen flex items-center justify-center text-center p-8">
+          <div class="glass rounded-2xl p-8 max-w-md">
+            <h2 class="text-2xl font-bold text-[var(--primary)] mb-4">Error Loading Page</h2>
+            <p class="mb-6">Please check the console for details.</p>
+            <button 
+              onclick="window.location.reload()"
+              class="bg-[var(--primary)] text-white px-6 py-2 rounded-full font-medium"
+            >
+              Reload Page
+            </button>
+          </div>
+        </div>
+      `;
     }
-    
-    // Show confetti when page loads
-    window.addEventListener('load', showConfetti);
   </script>
-  
-  <!-- Load confetti library -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </body>
 </html>
