@@ -3,12 +3,293 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Happy Birthday!</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link href="./styles.css" rel="stylesheet">
+  <title>Happy Birthday Celebration</title>
+  <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/babel-standalone@6.26.0/babel.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/framer-motion@11.3.28/dist/framer-motion.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <style>
+    @tailwind base;
+    @tailwind components;
+    @tailwind utilities;
+
+    :root {
+      --primary: #ff6b6b;
+      --secondary: #4ecdc4;
+      --accent: #ffe66d;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
+      color: #ffffff;
+      margin: 0;
+      overflow-x: hidden;
+    }
+
+    .perspective-1000 {
+      perspective: 1000px;
+    }
+    .transform-style-preserve-3d {
+      transform-style: preserve-3d;
+    }
+    .backface-hidden {
+      backface-visibility: hidden;
+    }
+    .rotate-y-180 {
+      transform: rotateY(180deg);
+    }
+  </style>
 </head>
 <body>
   <div id="root"></div>
-  <script type="module" src="./App.jsx"></script>
+
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+    const { motion } = window.FramerMotion;
+
+    // Navigation Bar
+    const Navbar = () => (
+      <motion.nav
+        initial={{ y: -50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        className="fixed top-0 left-0 right-0 bg-black/80 backdrop-blur-md z-50 py-4 px-6 flex justify-between items-center"
+      >
+        <h1 className="text-2xl font-bold text-[var(--primary)] font-['Playfair_Display']">Birthday Bliss</h1>
+        <div className="space-x-4">
+          <a href="#gallery" className="text-white hover:text-[var(--accent)] transition-colors">Gallery</a>
+          <a href="#messages" className="text-white hover:text-[var(--accent)] transition-colors">Messages</a>
+          <a href="#wishes" className="text-white hover:text-[var(--accent)] transition-colors">Wishes</a>
+        </div>
+      </motion.nav>
+    );
+
+    // Header Component
+    const Header = ({ toggleMusic, isPlaying }) => (
+      <motion.header
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.5 }}
+        className="min-h-screen flex flex-col items-center justify-center text-center bg-[url('https://images.unsplash.com/photo-1620121692029-d088224ddc74')] bg-cover bg-center relative"
+      >
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 to-black/50"></div>
+        <motion.h1
+          initial={{ y: 50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 1, delay: 0.5 }}
+          className="text-5xl md:text-7xl font-extrabold text-[var(--accent)] font-['Playfair_Display'] mb-8 drop-shadow-2xl z-10 tracking-tight"
+        >
+          Happy Birthday, Love! 🎉
+        </motion.h1>
+        <motion.button
+          whileHover={{ scale: 1.1, boxShadow: "0 0 20px rgba(255, 107, 107, 0.8)" }}
+          whileTap={{ scale: 0.95 }}
+          onClick={toggleMusic}
+          className="bg-[var(--primary)] text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg z-10"
+        >
+          {isPlaying ? 'Pause Music' : 'Play Music'}
+        </motion.button>
+      </motion.header>
+    );
+
+    // Gallery Component
+    const Gallery = () => {
+      const images = ['image1.jpg', 'image2.jpg', 'image3.jpg', 'image4.jpg', 'image5.jpg', 'image6.jpg', 'image7.jpg', 'image8.jpg', 'image9.jpg'];
+
+      return (
+        <section id="gallery" className="py-20 px-4 max-w-7xl mx-auto">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-4xl md:text-5xl font-bold text-center text-[var(--accent)] font-['Playfair_Display'] mb-12"
+          >
+            Our Moments 📸
+          </motion.h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {images.map((src, index) => (
+              <motion.img
+                key={index}
+                src={src}
+                alt={`Memory ${index + 1}`}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                whileHover={{ scale: 1.05, boxShadow: "0 10px 20px rgba(0, 0, 0, 0.5)" }}
+                className="w-full h-80 object-cover rounded-2xl shadow-md"
+              />
+            ))}
+          </div>
+        </section>
+      );
+    };
+
+    // Message Card Component
+    const MessageCard = ({ frontText, backText }) => (
+      <motion.div
+        className="relative bg-gray-800/80 backdrop-blur-sm p-6 rounded-2xl shadow-xl perspective-1000"
+        whileHover={{ scale: 1.05 }}
+      >
+        <motion.div
+          className="relative transition-transform duration-500 transform-style-preserve-3d"
+          animate={{ rotateY: 0 }}
+          whileHover={{ rotateY: 180 }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="absolute inset-0 bg-[url('card-front.jpg')] bg-cover rounded-2xl flex items-center justify-center text-white text-center p-6 h-64 backface-hidden">
+            <p className="text-lg font-semibold">{frontText}</p>
+          </div>
+          <div className="absolute inset-0 bg-[url('card-back.jpg')] bg-cover rounded-2xl flex items-center justify-center text-[var(--secondary)] text-center p-6 h-64 backface-hidden rotate-y-180">
+            <p className="text-lg font-semibold">{backText}</p>
+          </div>
+        </motion.div>
+      </motion.div>
+    );
+
+    // Messages Section
+    const Messages = () => {
+      const messages = [
+        { front: 'Wishing you a day filled with love and laughter! 💖', back: 'You mean the world to me! 🌍' },
+        { front: 'Every moment with you is a blessing. Happy Birthday! 🎉', back: 'I am so grateful for you! 🙏' },
+        { front: 'May your dreams take flight today and always! 🕊️', back: 'I believe in you! ✨' },
+        { front: 'Here’s to more adventures together. Cheers! 🥂', back: 'Here’s to many more birthdays! 🎉' },
+      ];
+
+      return (
+        <section id="messages" className="py-20 px-4 max-w-7xl mx-auto">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-4xl md:text-5xl font-bold text-center text-[var(--accent)] font-['Playfair_Display'] mb-12"
+          >
+            Heartfelt Messages 💌
+          </motion.h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {messages.map((msg, index) => (
+              <MessageCard key={index} frontText={msg.front} backText={msg.back} />
+            ))}
+          </div>
+        </section>
+      );
+    };
+
+    // Countdown Component
+    const Countdown = () => {
+      const [time, setTime] = useState({
+        days: 0,
+        hours: 0,
+        minutes: 0,
+        seconds: 0,
+      });
+
+      useEffect(() => {
+        const birthdayDate = new Date("May 30, 2025 00:00:00").getTime();
+        const interval = setInterval(() => {
+          const now = new Date().getTime();
+          const timeLeft = birthdayDate - now;
+
+          const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+          const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+          setTime({
+            days: days < 10 ? `0${days}` : days,
+            hours: hours < 10 ? `0${hours}` : hours,
+            minutes: minutes < 10 ? `0${minutes}` : minutes,
+            seconds: seconds < 10 ? `0${seconds}` : seconds,
+          });
+        }, 1000);
+
+        return () => clearInterval(interval);
+      }, []);
+
+      return (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="text-4xl md:text-5xl font-bold text-center text-white mt-16 flex justify-center gap-4"
+        >
+          <span className="text-[var(--accent)]">{time.days}</span>:
+          <span className="text-[var(--accent)]">{time.hours}</span>:
+          <span className="text-[var(--accent)]">{time.minutes}</span>:
+          <span className="text-[var(--accent)]">{time.seconds}</span>
+        </motion.div>
+      );
+    };
+
+    // Footer Component
+    const Footer = () => (
+      <motion.footer
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        className="py-8 px-4 bg-black/80 text-center text-white"
+      >
+        <p className="text-sm">Crafted with 💖 for an unforgettable birthday!</p>
+      </motion.footer>
+    );
+
+    // Main App Component
+    const App = () => {
+      const [isPlaying, setIsPlaying] = useState(false);
+      const audioRef = useRef(new Audio('your-music.mp3'));
+      audioRef.current.loop = true;
+
+      useEffect(() => {
+        // Trigger confetti animation on load
+        window.confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 },
+          colors: ['#ff6b6b', '#4ecdc4', '#ffe66d'],
+        });
+      }, []);
+
+      const toggleMusic = () => {
+        if (isPlaying) {
+          audioRef.current.pause();
+        } else {
+          audioRef.current.play().catch((e) => console.log('Audio play failed:', e));
+        }
+        setIsPlaying(!isPlaying);
+      };
+
+      return (
+        <div className="min-h-screen">
+          <Navbar />
+          <Header toggleMusic={toggleMusic} isPlaying={isPlaying} />
+          <Gallery />
+          <Messages />
+          <motion.div
+            id="wishes"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="flex justify-center mt-16"
+          >
+            <a
+              href="https://wa.me/?text=Happy%20Birthday%20my%20love!%20%F0%9F%92%95%20"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-[var(--secondary)] text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300"
+            >
+              Send Your Wishes
+            </a>
+          </motion.div>
+          <Countdown />
+          <Footer />
+        </div>
+      );
+    };
+
+    // Render the App
+    ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
 </body>
 </html>
